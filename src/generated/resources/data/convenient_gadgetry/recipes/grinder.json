@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iii",
+    "isi",
+    "bbb"
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:smooth_stone_slab"
+    },
+    "i": {
+      "tag": "forge:ingots/iron"
+    },
+    "b": {
+      "item": "minecraft:smooth_stone"
+    }
+  },
+  "result": {
+    "item": "convenient_gadgetry:grinder"
+  }
+}

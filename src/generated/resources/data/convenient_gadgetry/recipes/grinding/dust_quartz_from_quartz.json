@@ -1,0 +1,15 @@
+{
+  "type": "convenient_gadgetry:grinding",
+  "input": {
+    "item": "minecraft:quartz"
+  },
+  "cranks_required": 4,
+  "outputs": [
+    {
+      "output": {
+        "item": "convenient_gadgetry:dust_quartz"
+      },
+      "chance": 1.0
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "type": "convenient_gadgetry:grinding",
+  "input": {
+    "tag": "forge:ores/gold"
+  },
+  "cranks_required": 4,
+  "outputs": [
+    {
+      "output": {
+        "item": "convenient_gadgetry:dust_gold",
+        "count": 2
+      },
+      "chance": 1.0
+    }
+  ]
+}

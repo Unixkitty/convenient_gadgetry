@@ -1,0 +1,22 @@
+{
+  "type": "convenient_gadgetry:grinding",
+  "input": {
+    "item": "minecraft:yellow_wool"
+  },
+  "cranks_required": 4,
+  "outputs": [
+    {
+      "output": {
+        "item": "minecraft:string",
+        "count": 4
+      },
+      "chance": 1.0
+    },
+    {
+      "output": {
+        "item": "minecraft:yellow_dye"
+      },
+      "chance": 0.5
+    }
+  ]
+}

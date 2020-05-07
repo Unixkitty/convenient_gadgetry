@@ -1,0 +1,31 @@
+{
+  "itemGroup.convenient_gadgetry": "Convenient Gadgetry",
+  "itemGroup.convenient_gadgetry.dusts": "Convenient Gadgetry - Dusts",
+
+  "block.convenient_gadgetry.grinder": "Basic Grinder",
+  "block.convenient_gadgetry.cotton": "Cotton",
+
+  "item.convenient_gadgetry.dust_sulfur": "Sulfur Dust",
+  "item.convenient_gadgetry.dust_iron": "Iron Dust",
+  "item.convenient_gadgetry.dust_gold": "Gold Dust",
+  "item.convenient_gadgetry.dust_aluminum": "Aluminum Dust",
+  "item.convenient_gadgetry.dust_copper": "Copper Dust",
+  "item.convenient_gadgetry.dust_lead": "Lead Dust",
+  "item.convenient_gadgetry.dust_nickel": "Nickel Dust",
+  "item.convenient_gadgetry.dust_silver": "Silver Dust",
+  "item.convenient_gadgetry.dust_tin": "Tin Dust",
+  "item.convenient_gadgetry.dust_osmium": "Osmium Dust",
+  "item.convenient_gadgetry.dust_obsidian": "Obsidian Dust",
+  "item.convenient_gadgetry.dust_quartz": "Quartz Dust",
+  "item.convenient_gadgetry.dust_bronze": "Bronze Dust",
+  "item.convenient_gadgetry.dust_coal": "Coal Dust",
+  "item.convenient_gadgetry.dust_flour": "Flour",
+  "item.convenient_gadgetry.dust_charcoal": "Charcoal Dust",
+
+  "item.convenient_gadgetry.crop_cotton": "Cotton",
+  "item.convenient_gadgetry.cotton": "Cotton Seeds",
+
+  "text.convenient_gadgetry.bucket.info": "Put on your head",
+
+  "jei.convenient_gadgetry.category.grinding": "Grinding"
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "top": "convenient_gadgetry:block/grinder_top",
+    "side": "convenient_gadgetry:block/grinder_side",
+    "bottom": "convenient_gadgetry:block/grinder_bottom"
+  }
+}

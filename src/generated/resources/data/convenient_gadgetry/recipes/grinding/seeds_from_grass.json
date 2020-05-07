@@ -1,0 +1,27 @@
+{
+  "type": "convenient_gadgetry:grinding",
+  "input": {
+    "item": "minecraft:grass"
+  },
+  "cranks_required": 4,
+  "outputs": [
+    {
+      "output": {
+        "item": "minecraft:wheat_seeds"
+      },
+      "chance": 1.0
+    },
+    {
+      "output": {
+        "item": "minecraft:beetroot_seeds"
+      },
+      "chance": 0.125
+    },
+    {
+      "output": {
+        "item": "convenient_gadgetry:cotton"
+      },
+      "chance": 0.25
+    }
+  ]
+}

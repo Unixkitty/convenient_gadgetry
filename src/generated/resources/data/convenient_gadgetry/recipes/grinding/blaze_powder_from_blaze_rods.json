@@ -1,0 +1,22 @@
+{
+  "type": "convenient_gadgetry:grinding",
+  "input": {
+    "item": "minecraft:blaze_rod"
+  },
+  "cranks_required": 4,
+  "outputs": [
+    {
+      "output": {
+        "item": "minecraft:blaze_powder",
+        "count": 4
+      },
+      "chance": 1.0
+    },
+    {
+      "output": {
+        "item": "convenient_gadgetry:dust_sulfur"
+      },
+      "chance": 0.5
+    }
+  ]
+}

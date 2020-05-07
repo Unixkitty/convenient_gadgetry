@@ -1,0 +1,2 @@
+include ':gemspork'
+project(':gemspork').projectDir = new File('../gemspork')

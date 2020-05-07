@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "convenient_gadgetry:bucket_helmet"
+    }
+  ],
+  "result": {
+    "item": "minecraft:bucket"
+  }
+}

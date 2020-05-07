@@ -1,0 +1,6 @@
+{
+  "parent": "block/crop",
+  "textures": {
+    "crop": "convenient_gadgetry:block/crop_cotton_stage3"
+  }
+}

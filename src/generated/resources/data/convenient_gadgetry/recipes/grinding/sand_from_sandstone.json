@@ -1,0 +1,16 @@
+{
+  "type": "convenient_gadgetry:grinding",
+  "input": {
+    "tag": "forge:sandstone"
+  },
+  "cranks_required": 6,
+  "outputs": [
+    {
+      "output": {
+        "item": "minecraft:sand",
+        "count": 4
+      },
+      "chance": 1.0
+    }
+  ]
+}
