@@ -35,9 +35,7 @@ public class JeiPlugin implements IModPlugin
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration)
     {
-        IGuiHelper guiHelper = registration.getJeiHelpers().getGuiHelper();
-
-        registration.addRecipeCategories(new GrinderRecipeCategoryJei(guiHelper));
+        registration.addRecipeCategories(new GrinderRecipeCategoryJei(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override

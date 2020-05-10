@@ -102,6 +102,19 @@ public class GrinderRecipeCategoryJei implements IRecipeCategory<GrinderRecipe>
         for (int i = 0; i < outputs.size(); i++)
         {
             itemStacks.set(i + 1, outputs.get(i).getKey());
+
+            float chance = outputs.get(i).getValue();
+
+            if (chance < 1)
+            {
+                itemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) ->
+                {
+                    if (!input)
+                    {
+                        tooltip.add(new TranslationTextComponent("jei.convenient_gadgetry.chance", asPercent(chance)).getFormattedText());
+                    }
+                });
+            }
         }
     }
 
@@ -114,8 +127,6 @@ public class GrinderRecipeCategoryJei implements IRecipeCategory<GrinderRecipe>
 
         List<Pair<ItemStack, Float>> outputs = recipe.getPossibleOutputsWithChances();
 
-//        int spacing = (((GUI_HEIGHT - 26) / 2) / 2) / 2;
-
         if (recipe.getCranksRequired() != IGrinderRecipe.CRANKS_DEFAULT)
         {
             drawText(font, "Crank turns: " + recipe.getCranksRequired(), 0, GUI_HEIGHT / ModGuiHandler.SLOT_Y_SPACING);
@@ -127,9 +138,7 @@ public class GrinderRecipeCategoryJei implements IRecipeCategory<GrinderRecipe>
 
             if (chance < 1)
             {
-                int asPercent = (int) (100 * chance);
-                String text = asPercent < 1 ? "<1%" : asPercent + "%";
-                drawText(font, text, 61 + 18 * i, 40);
+                drawText(font, asPercent(chance), 61 + 18 * i, 40);
             }
         }
     }
@@ -146,5 +155,11 @@ public class GrinderRecipeCategoryJei implements IRecipeCategory<GrinderRecipe>
 
         fontRenderer.setBidiFlag(wasUnicode);
         RenderSystem.popMatrix();
+    }
+
+    private String asPercent(float chance)
+    {
+        int asPercent = (int) (100 * chance);
+        return asPercent < 1 ? "<1%" : asPercent + "%";
     }
 }
