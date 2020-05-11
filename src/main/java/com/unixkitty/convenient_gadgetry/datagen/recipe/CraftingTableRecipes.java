@@ -69,5 +69,14 @@ public class CraftingTableRecipes extends CraftingTableRecipeProvider
                 .addCriterion("has_tin_dust", hasItem(Dust.TIN.asTag()))
                 .addCriterion("has_copper_dust", hasItem(Dust.COPPER.asTag()))
                 .build(consumer);
+
+        //Crank
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.CRANK.get())
+                .key('s', Tags.Items.RODS_WOODEN)
+                .patternLine("sss")
+                .patternLine("  s")
+                .patternLine("  s")
+                .addCriterion("has_item", hasItem(ModBlocks.GRINDER.get()))
+                .build(consumer);
     }
 }

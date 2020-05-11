@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "convenient_gadgetry:block/crank" },
+    "facing=east": { "model": "convenient_gadgetry:block/crank", "y": 90 },
+    "facing=south": { "model": "convenient_gadgetry:block/crank", "y": 180 },
+    "facing=west": { "model": "convenient_gadgetry:block/crank", "y": 270 }
+  }
+}
