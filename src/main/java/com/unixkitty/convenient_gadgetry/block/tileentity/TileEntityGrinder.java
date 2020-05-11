@@ -1,5 +1,6 @@
 package com.unixkitty.convenient_gadgetry.block.tileentity;
 
+import com.unixkitty.convenient_gadgetry.Config;
 import com.unixkitty.convenient_gadgetry.api.recipe.IGrinderRecipe;
 import com.unixkitty.convenient_gadgetry.container.GrinderContainer;
 import com.unixkitty.convenient_gadgetry.crafting.ModRecipeTypes;
@@ -17,6 +18,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.Direction;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -39,8 +42,6 @@ import java.util.Optional;
 
 public class TileEntityGrinder extends TileEntityMod implements INamedContainerProvider
 {
-    public static final int ticksPerCrankRotation = 18;
-
     public static final int INPUT_SLOT = 0;
     public static final int PROCESSING_SLOT = 1;
     public static final int[] OUTPUT_SLOTS = new int[]{2, 3, 4};
@@ -92,9 +93,8 @@ public class TileEntityGrinder extends TileEntityMod implements INamedContainerP
 
     private final LazyOptional<ItemStackHandler> inventoryCapabilityExternal = LazyOptional.of(() -> this.inventory);
 
-    // Machines (hoppers, pipes) connected to the top and sides can only insert/extract items from the input slot
+    // Machines (hoppers, pipes) connected to the top and sides can only insert/extract items from specified slots
     private final LazyOptional<IItemHandlerModifiable> inventoryCapabilityExternalInput = LazyOptional.of(() -> new RangedWrapper(this.inventory, INPUT_SLOT, INPUT_SLOT + 1));
-    // Machines (hoppers, pipes) connected to the bottom can only insert/extract items from the output slots
     private final LazyOptional<IItemHandlerModifiable> inventoryCapabilityExternalOutput = LazyOptional.of(() -> new RangedWrapper(this.inventory, OUTPUT_SLOTS[0], OUTPUT_SLOTS[OUTPUT_SLOTS.length - 1] + 1));
 
     public short cranks = 0;
@@ -143,7 +143,6 @@ public class TileEntityGrinder extends TileEntityMod implements INamedContainerP
         return true;
     }
 
-    //TODO implement a player stat of how many cranks turned total?
     public void crank(PlayerEntity player)
     {
         if (allowed(player)) return;
@@ -168,6 +167,11 @@ public class TileEntityGrinder extends TileEntityMod implements INamedContainerP
             }
 
             this.produceOutput(outputs.get().get(0).getKey().copy());
+
+            if (Config.grinderPlayPopSound.get())
+            {
+                this.getWorld().playSound(null, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 0.5f, 1.0f);
+            }
 
             //If any optional outputs
             if (outputs.get().size() > 1)
@@ -358,13 +362,6 @@ public class TileEntityGrinder extends TileEntityMod implements INamedContainerP
     {
         return inventory;
     }
-
-    //TODO this may be necessary for the crank
-    /*@Override
-    public AxisAlignedBB getRenderBoundingBox()
-    {
-        return new AxisAlignedBB(getPos(), getPos().add(1, 2, 1));
-    }*/
 
     public void forceClientSync()
     {

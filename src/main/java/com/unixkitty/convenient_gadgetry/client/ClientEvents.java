@@ -2,18 +2,14 @@ package com.unixkitty.convenient_gadgetry.client;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
 import com.unixkitty.convenient_gadgetry.client.gui.GrinderScreen;
-import com.unixkitty.convenient_gadgetry.client.render.TileEntityGrinderRender;
 import com.unixkitty.convenient_gadgetry.init.ModBlocks;
 import com.unixkitty.convenient_gadgetry.init.ModContainerTypes;
-import com.unixkitty.convenient_gadgetry.init.ModTileEntityTypes;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
@@ -39,9 +35,9 @@ public final class ClientEvents
         RenderTypeLookup.setRenderLayer(ModBlocks.COTTON.get(), RenderType.getCutout());
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void registerModels(ModelRegistryEvent event)
     {
         ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.GRINDER.get(), TileEntityGrinderRender::new);
-    }
+    }*/
 }

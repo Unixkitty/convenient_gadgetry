@@ -11,7 +11,9 @@ public class Config
 
     /* BEGIN ENTRIES */
 
+    public static final String CATEGORY_MISC = "miscellaneous";
 
+    public static ForgeConfigSpec.BooleanValue grinderPlayPopSound;
 
     /* END ENTRIES */
 
@@ -21,6 +23,9 @@ public class Config
     {
         ForgeConfigSpec.Builder commonConfig = new ForgeConfigSpec.Builder();
 
+        commonConfig.push(CATEGORY_MISC);
+        grinderPlayPopSound = commonConfig.comment("Should the grinder block play a pop sound when something gets fully ground up?").define("grinderPlayPopSound", true);
+        commonConfig.pop();
 
         COMMON_CONFIG = commonConfig.build();
     }

@@ -24,7 +24,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Random;
 
-public class BlockCropCotton extends CropsBlock
+public class CropCottonBlock extends CropsBlock
 {
     public static final IntegerProperty COTTON_AGE = BlockStateProperties.AGE_0_5;
     private static final VoxelShape[] SHAPE = new VoxelShape[]{
@@ -38,7 +38,7 @@ public class BlockCropCotton extends CropsBlock
 
     private final LazyValue<IItemProvider> seeds;
 
-    public BlockCropCotton()
+    public CropCottonBlock()
     {
         super(Block.Properties.from(Blocks.BEETROOTS));
 

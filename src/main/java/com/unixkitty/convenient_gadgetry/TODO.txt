@@ -1,4 +1,1 @@
-Crank rotation via blockstate
 Crank rotation via blockstate + TESR animation
-Crank durability
-Crank placement bindings to grinders

@@ -1,7 +1,8 @@
 package com.unixkitty.convenient_gadgetry.init;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
-import com.unixkitty.convenient_gadgetry.block.BlockCropCotton;
+import com.unixkitty.convenient_gadgetry.block.CrankBlock;
+import com.unixkitty.convenient_gadgetry.block.CropCottonBlock;
 import com.unixkitty.convenient_gadgetry.itemgroup.ModItemGroups;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BlockNamedItem;
@@ -27,12 +28,17 @@ public final class ModRegistry
 
             Item itemBlock;
 
-            if (block instanceof BlockCropCotton)
+            if (block instanceof CropCottonBlock)
             {
                 itemBlock = new BlockNamedItem(block, properties);
             }
             else
             {
+                if (block instanceof CrankBlock)
+                {
+                    properties.maxStackSize(1);
+                }
+
                 itemBlock = new BlockItem(block, properties);
             }
 

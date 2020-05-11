@@ -27,6 +27,7 @@
   "item.convenient_gadgetry.cotton": "Cotton Seeds",
 
   "text.convenient_gadgetry.bucket.info": "Put on your head",
+  "text.convenient_gadgetry.crank.info": "Put on top of a grinder",
 
   "jei.convenient_gadgetry.category.grinding": "Grinding",
   "jei.convenient_gadgetry.chance": "Output chance: %1$s"

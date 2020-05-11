@@ -7,7 +7,6 @@ import com.unixkitty.convenient_gadgetry.container.GrinderContainer;
 import com.unixkitty.convenient_gadgetry.crafting.ModRecipeTypes;
 import com.unixkitty.convenient_gadgetry.init.ModBlocks;
 import mezz.jei.api.IModPlugin;
-import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;

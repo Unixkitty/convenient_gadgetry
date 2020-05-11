@@ -1,7 +1,7 @@
 package com.unixkitty.convenient_gadgetry.datagen.recipe;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
-import com.unixkitty.convenient_gadgetry.block.BlockCropCotton;
+import com.unixkitty.convenient_gadgetry.block.CropCottonBlock;
 import com.unixkitty.convenient_gadgetry.init.ModBlocks;
 import com.unixkitty.convenient_gadgetry.init.ModItems;
 import com.unixkitty.convenient_gadgetry.item.Dust;
@@ -39,7 +39,7 @@ public class CraftingTableRecipes extends CraftingTableRecipeProvider
                 .build(consumer);
 
         //Cotton
-        ShapelessRecipeBuilder.shapelessRecipe(((BlockCropCotton) ModBlocks.COTTON.get()).getSeedsItem(), 2)
+        ShapelessRecipeBuilder.shapelessRecipe(((CropCottonBlock) ModBlocks.COTTON.get()).getSeedsItem(), 2)
                 .addIngredient(ModItems.CROP_COTTON.get())
                 .addCriterion("has_item", hasItem(ModItems.CROP_COTTON.get()))
                 .build(consumer, HelperUtil.prefixResource(ConvenientGadgetry.MODID, "cotton_seeds_from_cotton"));

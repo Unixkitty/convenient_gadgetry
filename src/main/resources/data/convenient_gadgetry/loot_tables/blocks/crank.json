@@ -7,7 +7,13 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "convenient_gadgetry:crank"
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 2
+            }
+          ],
+          "name": "minecraft:stick"
         }
       ],
       "conditions": [
