@@ -55,10 +55,6 @@ public class CraftingTableRecipes extends CraftingTableRecipeProvider
                 .addIngredient(Items.BUCKET)
                 .addCriterion("has_item", hasItem(Items.BUCKET))
                 .build(consumer);
-        ShapelessRecipeBuilder.shapelessRecipe(Items.BUCKET)
-                .addIngredient(ModItems.BUCKET_HELMET.get())
-                .addCriterion("has_item", hasItem(Items.BUCKET))
-                .build(consumer, HelperUtil.prefixResource(ConvenientGadgetry.MODID, "bucket_from_helmet"));
 
         //Bronze dust
         ShapelessRecipeBuilder.shapelessRecipe(Dust.BRONZE.asItem())
