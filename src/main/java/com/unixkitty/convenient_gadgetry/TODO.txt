@@ -1,1 +1,0 @@
-Crank rotation via blockstate + TESR animation
