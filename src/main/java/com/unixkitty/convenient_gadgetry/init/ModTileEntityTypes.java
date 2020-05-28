@@ -3,6 +3,7 @@ package com.unixkitty.convenient_gadgetry.init;
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
 import com.unixkitty.convenient_gadgetry.block.tileentity.TileEntityCrank;
 import com.unixkitty.convenient_gadgetry.block.tileentity.TileEntityGrinder;
+import com.unixkitty.convenient_gadgetry.block.tileentity.TileEntityTrashcan;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -20,5 +21,9 @@ public final class ModTileEntityTypes
 
     public static final RegistryObject<TileEntityType<TileEntityCrank>> CRANK = TILE_ENTITY_TYPES.register("crank", () ->
             TileEntityType.Builder.create(TileEntityCrank::new, Objects.requireNonNull(ModBlocks.CRANK).get()).build(null)
+    );
+
+    public static final RegistryObject<TileEntityType<TileEntityTrashcan>> TRASHCAN = TILE_ENTITY_TYPES.register("trashcan", () ->
+            TileEntityType.Builder.create(TileEntityTrashcan::new, Objects.requireNonNull(ModBlocks.TRASHCAN).get()).build(null)
     );
 }

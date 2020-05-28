@@ -2,6 +2,7 @@ package com.unixkitty.convenient_gadgetry.client;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
 import com.unixkitty.convenient_gadgetry.client.gui.GrinderScreen;
+import com.unixkitty.convenient_gadgetry.client.gui.TrashcanScreen;
 import com.unixkitty.convenient_gadgetry.init.ModBlocks;
 import com.unixkitty.convenient_gadgetry.init.ModContainerTypes;
 import net.minecraft.client.gui.ScreenManager;
@@ -30,7 +31,11 @@ public final class ClientEvents
     {
         // Register ContainerType Screens
         // ScreenManager.registerFactory is not safe to call during parallel mod loading so we queue it to run later
-        DeferredWorkQueue.runLater(() -> ScreenManager.registerFactory(ModContainerTypes.GRINDER.get(), GrinderScreen::new));
+        DeferredWorkQueue.runLater(() ->
+                {
+                    ScreenManager.registerFactory(ModContainerTypes.GRINDER.get(), GrinderScreen::new);
+                    ScreenManager.registerFactory(ModContainerTypes.TRASHCAN.get(), TrashcanScreen::new);
+                });
 
         RenderTypeLookup.setRenderLayer(ModBlocks.COTTON.get(), RenderType.getCutout());
     }

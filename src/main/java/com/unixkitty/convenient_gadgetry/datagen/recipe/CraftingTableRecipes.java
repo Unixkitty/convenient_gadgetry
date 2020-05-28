@@ -74,5 +74,14 @@ public class CraftingTableRecipes extends CraftingTableRecipeProvider
                 .patternLine("  s")
                 .addCriterion("has_item", hasItem(ModBlocks.GRINDER.get()))
                 .build(consumer);
+
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.TRASHCAN.get())
+                .key('i', Tags.Items.INGOTS_IRON)
+                .key('t', Blocks.IRON_TRAPDOOR)
+                .patternLine(" t ")
+                .patternLine("i i")
+                .patternLine("iii")
+                .addCriterion("has_item", hasItem(Items.IRON_INGOT))
+                .build(consumer);
     }
 }
