@@ -75,6 +75,7 @@ public class CraftingTableRecipes extends CraftingTableRecipeProvider
                 .addCriterion("has_item", hasItem(ModBlocks.GRINDER.get()))
                 .build(consumer);
 
+        //Trashcan
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.TRASHCAN.get())
                 .key('i', Tags.Items.INGOTS_IRON)
                 .key('t', Blocks.IRON_TRAPDOOR)

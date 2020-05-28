@@ -27,8 +27,13 @@
   "item.convenient_gadgetry.crop_cotton": "Cotton",
   "item.convenient_gadgetry.cotton": "Cotton Seeds",
 
+  "item.convenient_gadgetry.magnet": "Item Magnet",
+
   "text.convenient_gadgetry.bucket.info": "Put on your head",
   "text.convenient_gadgetry.crank.info": "Put on top of a grinder",
+
+  "text.convenient_gadgetry.magnet.info1": "Enabled (Right click): %1$s",
+  "text.convenient_gadgetry.magnet.info2": "Inverted (Sneak right click): %1$s",
 
   "jei.convenient_gadgetry.category.grinding": "Grinding",
   "jei.convenient_gadgetry.chance": "Output chance: %1$s"

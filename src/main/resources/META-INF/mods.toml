@@ -24,12 +24,13 @@ displayURL="https://unixkitty.com" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="convenient_gadgetry.png" #optional
 # A text field displayed in the mod UI
-credits="JonusRockweller for grinder texture" #optional
+#credits="" #optional
 # A text field displayed in the mod UI
 authors="Unixkitty" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-#description
+Credit to JonusRockweller for grinder texture,
+https://github.com/malcolmriley/unused-textures for some others
 '''
 [[dependencies.convenient_gadgetry]]
     modId="gemspork"

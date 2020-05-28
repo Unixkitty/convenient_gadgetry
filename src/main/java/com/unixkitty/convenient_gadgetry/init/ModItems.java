@@ -3,6 +3,7 @@ package com.unixkitty.convenient_gadgetry.init;
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
 import com.unixkitty.convenient_gadgetry.item.BucketArmorItem;
 import com.unixkitty.convenient_gadgetry.item.Dust;
+import com.unixkitty.convenient_gadgetry.item.MagnetItem;
 import com.unixkitty.convenient_gadgetry.itemgroup.ModItemGroups;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -34,6 +35,8 @@ public final class ModItems
     public static final RegistryObject<Item> DUST_COAL = registerDust(Dust.COAL);
     public static final RegistryObject<Item> DUST_FLOUR = registerDust(Dust.FLOUR);
     public static final RegistryObject<Item> DUST_CHARCOAL = registerDust(Dust.CHARCOAL);
+
+    public static final RegistryObject<Item> MAGNET = ITEMS.register("magnet", () -> new MagnetItem(basicProperties().maxStackSize(1)));
 
     private static RegistryObject<Item> registerDust(Dust dust)
     {
