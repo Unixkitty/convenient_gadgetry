@@ -35,6 +35,9 @@ public final class ModItems
     public static final RegistryObject<Item> DUST_COAL = registerDust(Dust.COAL);
     public static final RegistryObject<Item> DUST_FLOUR = registerDust(Dust.FLOUR);
     public static final RegistryObject<Item> DUST_CHARCOAL = registerDust(Dust.CHARCOAL);
+    public static final RegistryObject<Item> DUST_MAGNETIC = registerDust(Dust.MAGNETIC);
+
+    public static final RegistryObject<Item> INGOT_MAGNETIC = ITEMS.register("ingot_magnetic", () -> new Item(basicProperties()));
 
     public static final RegistryObject<Item> MAGNET = ITEMS.register("magnet", () -> new MagnetItem(basicProperties().maxStackSize(1)));
 

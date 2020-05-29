@@ -23,6 +23,9 @@
   "item.convenient_gadgetry.dust_coal": "Coal Dust",
   "item.convenient_gadgetry.dust_flour": "Flour",
   "item.convenient_gadgetry.dust_charcoal": "Charcoal Dust",
+  "item.convenient_gadgetry.dust_magnetic": "Magnetic Alloy Dust",
+
+  "item.convenient_gadgetry.ingot_magnetic": "Magnetic Alloy",
 
   "item.convenient_gadgetry.crop_cotton": "Cotton",
   "item.convenient_gadgetry.cotton": "Cotton Seeds",
@@ -34,6 +37,10 @@
 
   "text.convenient_gadgetry.magnet.info1": "Enabled (Right click): %1$s",
   "text.convenient_gadgetry.magnet.info2": "Inverted (Sneak right click): %1$s",
+  "text.convenient_gadgetry.magnet_enabled": "Magnet enabled: %1$s",
+  "text.convenient_gadgetry.magnet_inverted": "Magnet inverted: %1$s",
+
+  "key.convenient_gadgetry.toggle_magnet": "Toggle magnet",
 
   "jei.convenient_gadgetry.category.grinding": "Grinding",
   "jei.convenient_gadgetry.chance": "Output chance: %1$s"

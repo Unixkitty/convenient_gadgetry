@@ -1,5 +1,6 @@
 package com.unixkitty.convenient_gadgetry.item;
 
+import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
 import com.unixkitty.convenient_gadgetry.init.ModTags;
 import com.unixkitty.convenient_gadgetry.util.ItemUtil;
 import com.unixkitty.convenient_gadgetry.util.Vector3;
@@ -7,6 +8,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -14,7 +16,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -26,6 +27,8 @@ import java.util.List;
 
 public class MagnetItem extends Item
 {
+    public static ItemStack TEMPLATE_STACK = ItemStack.EMPTY;
+
     private static final String COOLDOWN_TAG = "cooldown";
     private static final String ENABLED_TAG = "enabled";
     //Inverted means attract items only when sneaking
@@ -40,6 +43,8 @@ public class MagnetItem extends Item
         super(properties);
 
         PICKUP_DELAY_FIELD.setAccessible(true);
+
+        TEMPLATE_STACK = new ItemStack(this);
     }
 
     @Override
@@ -47,8 +52,8 @@ public class MagnetItem extends Item
     {
         super.addInformation(stack, world, tooltip, flag);
 
-        tooltip.add(new TranslationTextComponent("text.convenient_gadgetry.magnet.info1", isEnabled(stack)).applyTextStyle(TextFormatting.DARK_AQUA));
-        tooltip.add(new TranslationTextComponent("text.convenient_gadgetry.magnet.info2", isInverted(stack)).applyTextStyle(TextFormatting.DARK_AQUA));
+        tooltip.add(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet.info1", isEnabled(stack)).applyTextStyle(TextFormatting.DARK_AQUA));
+        tooltip.add(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet.info2", isInverted(stack)).applyTextStyle(TextFormatting.DARK_AQUA));
     }
 
     @Override
@@ -68,13 +73,13 @@ public class MagnetItem extends Item
             {
                 toggleInverted(stack);
 
-                player.sendMessage(new StringTextComponent("Magnet inverted: " + isInverted(stack)));
+                informPlayer(player, stack, INVERTED_TAG);
             }
             else
             {
                 toggle(stack);
 
-                player.sendMessage(new StringTextComponent("Magnet enabled: " + isEnabled(stack)));
+                informPlayer(player, stack, ENABLED_TAG);
             }
         }
 
@@ -193,5 +198,22 @@ public class MagnetItem extends Item
     public static void toggleInverted(ItemStack stack)
     {
         ItemUtil.setBoolean(stack, INVERTED_TAG, !isInverted(stack));
+    }
+
+    public static void handleKeyPacket(ServerPlayerEntity player, int slotIndex)
+    {
+        if (player.inventory.hasItemStack(TEMPLATE_STACK))
+        {
+            ItemStack stack = player.inventory.getStackInSlot(slotIndex);
+
+            toggle(stack);
+
+            informPlayer(player, stack, ENABLED_TAG);
+        }
+    }
+
+    private static void informPlayer(final PlayerEntity player, final ItemStack stack, String tag)
+    {
+        player.sendMessage(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet_" + tag, isEnabled(stack)));
     }
 }

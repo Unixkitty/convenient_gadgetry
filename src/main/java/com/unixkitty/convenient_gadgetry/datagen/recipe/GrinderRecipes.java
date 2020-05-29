@@ -77,6 +77,7 @@ public class GrinderRecipes extends RecipeProvider
                 case CHARCOAL:
                     ingot(dust, Ingredient.fromItems(Items.CHARCOAL), consumer);
                     break;
+                case MAGNETIC:
                 case BRONZE:
                     ingot(dust, consumer);
                     break;

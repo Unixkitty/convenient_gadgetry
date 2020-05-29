@@ -12,11 +12,18 @@ public class ModTags
 {
     public static class Items
     {
+        public static final Tag<Item> INGOT_MAGNETIC = forgeTag("ingots/magnetic");
+
         public static final Tag<Item> MAGNET_BLACKLIST = tag("magnet_blacklist");
 
         private static Tag<Item> tag(String name)
         {
             return new ItemTags.Wrapper(new ResourceLocation(ConvenientGadgetry.MODID, name));
+        }
+
+        private static Tag<Item> forgeTag(String name)
+        {
+            return new ItemTags.Wrapper(new ResourceLocation("forge", name));
         }
     }
 

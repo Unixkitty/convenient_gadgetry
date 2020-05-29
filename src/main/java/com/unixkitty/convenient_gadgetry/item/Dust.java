@@ -27,6 +27,7 @@ public enum Dust implements IItemProvider
     COAL("coal", 1),
     FLOUR("flour"),
     CHARCOAL("charcoal", 1),
+    MAGNETIC("magnetic")
     ;
 
     private final String name;

@@ -16,6 +16,7 @@
     "#forge:dusts/bronze",
     "#forge:dusts/coal",
     "#forge:flour",
-    "#forge:dusts/charcoal"
+    "#forge:dusts/charcoal",
+    "#forge:dusts/magnetic"
   ]
 }

@@ -4,6 +4,7 @@ import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
 import com.unixkitty.convenient_gadgetry.block.CropCottonBlock;
 import com.unixkitty.convenient_gadgetry.init.ModBlocks;
 import com.unixkitty.convenient_gadgetry.init.ModItems;
+import com.unixkitty.convenient_gadgetry.init.ModTags;
 import com.unixkitty.convenient_gadgetry.item.Dust;
 import com.unixkitty.gemspork.lib.HelperUtil;
 import com.unixkitty.gemspork.lib.datagen.recipe.CraftingTableRecipeProvider;
@@ -83,6 +84,25 @@ public class CraftingTableRecipes extends CraftingTableRecipeProvider
                 .patternLine("i i")
                 .patternLine("iii")
                 .addCriterion("has_item", hasItem(Items.IRON_INGOT))
+                .build(consumer);
+
+        //Magnetic dust
+        ShapelessRecipeBuilder.shapelessRecipe(ModItems.DUST_MAGNETIC.get(), 4)
+                .addIngredient(Dust.IRON.asTag())
+                .addIngredient(Dust.IRON.asTag())
+                .addIngredient(Dust.GOLD.asTag())
+                .addIngredient(Tags.Items.DUSTS_REDSTONE)
+                .addCriterion("has_redstone_dust", hasItem(Tags.Items.DUSTS_REDSTONE))
+                .build(consumer);
+
+        //Magnet
+        ShapedRecipeBuilder.shapedRecipe(ModItems.MAGNET.get())
+                .key('b', Tags.Items.DYES_BLUE)
+                .key('r', Tags.Items.DYES_RED)
+                .key('i', ModTags.Items.INGOT_MAGNETIC)
+                .patternLine("i i")
+                .patternLine("bir")
+                .addCriterion("has_item", hasItem(ModTags.Items.INGOT_MAGNETIC))
                 .build(consumer);
     }
 }

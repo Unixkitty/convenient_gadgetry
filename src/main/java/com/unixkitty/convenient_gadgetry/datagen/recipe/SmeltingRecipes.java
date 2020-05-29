@@ -1,6 +1,7 @@
 package com.unixkitty.convenient_gadgetry.datagen.recipe;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
+import com.unixkitty.convenient_gadgetry.init.ModItems;
 import com.unixkitty.convenient_gadgetry.item.Dust;
 import com.unixkitty.gemspork.lib.datagen.recipe.SmeltingRecipeProvider;
 import net.minecraft.data.CookingRecipeBuilder;
@@ -35,6 +36,9 @@ public class SmeltingRecipes extends SmeltingRecipeProvider
         basicCooking(consumer, Dust.SULFUR.asTag(), Items.GUNPOWDER, "gunpowder_from_sulfur");
         basicCooking(consumer, Dust.FLOUR.asTag(), Items.BREAD, "bread_from_flour");
         basicSmoking(consumer, Dust.FLOUR.asTag(), Items.BREAD, "bread_from_flour");
+
+        basicCooking(consumer, Dust.MAGNETIC.asTag(), ModItems.INGOT_MAGNETIC.get(), "magnetic_ingot_from_dust");
+        basicBlasting(consumer, Dust.MAGNETIC.asTag(), ModItems.INGOT_MAGNETIC.get(), "magnetic_ingot_from_dust");
     }
 
     private void basicCooking(Consumer<IFinishedRecipe> consumer, Tag<Item> input, IItemProvider result, String name)
