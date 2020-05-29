@@ -8,12 +8,12 @@ import com.unixkitty.convenient_gadgetry.init.ModContainerTypes;
 import com.unixkitty.convenient_gadgetry.item.MagnetItem;
 import com.unixkitty.convenient_gadgetry.network.MessageHandler;
 import com.unixkitty.convenient_gadgetry.network.message.MagnetToggleMessageToServer;
+import com.unixkitty.convenient_gadgetry.util.ItemUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -71,36 +71,48 @@ public final class ClientEvents
 
     public static class InstanceHandler
     {
-        //Add cooldown of one second to prevent network spam
+        private int keyCooldown = 0;
+        private boolean keyQueued = false;
+
         @SubscribeEvent
         public void onClientTick(final TickEvent.ClientTickEvent event)
         {
+            if (event.phase != TickEvent.Phase.END)
+            {
+                return;
+            }
+
             if (
-                    event.phase == TickEvent.Phase.END
-                            && toggleMagnet.isPressed()
-                            && Minecraft.getInstance().isGameFocused()
-                            && !Minecraft.getInstance().isGamePaused()
-                            && Minecraft.getInstance().player != null
+                    (toggleMagnet.isPressed() || keyQueued) &&
+                            Minecraft.getInstance().isGameFocused() &&
+                            !Minecraft.getInstance().isGamePaused() &&
+                            Minecraft.getInstance().player != null
             )
             {
-                int slot = -1;
-
-                for (final ItemStack stack : Minecraft.getInstance().player.inventory.mainInventory)
+                if (keyCooldown <= 0)
                 {
-                    if (stack.isItemEqual(MagnetItem.TEMPLATE_STACK))
+                    final int slot = ItemUtil.getFirstSlotIfPlayerHas(MagnetItem.TEMPLATE_STACK, Minecraft.getInstance().player);
+
+                    if (slot != -1)
                     {
-                        slot = Minecraft.getInstance().player.inventory.getSlotFor(stack);
-                        break;
+                        MessageHandler.INSTANCE.send(
+                                PacketDistributor.SERVER.noArg(),
+                                new MagnetToggleMessageToServer(slot)
+                        );
                     }
-                }
 
-                if (slot != -1)
-                {
-                    MessageHandler.INSTANCE.send(
-                            PacketDistributor.SERVER.noArg(),
-                            new MagnetToggleMessageToServer(slot)
-                    );
+                    keyCooldown = 20;
+                    keyQueued = false;
                 }
+                else
+                {
+                    keyQueued = true;
+                }
+            }
+
+            if (keyCooldown > 0)
+            {
+                keyCooldown--;
             }
         }
     }

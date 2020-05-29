@@ -1,7 +1,10 @@
 package com.unixkitty.convenient_gadgetry.util;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class ItemUtil
@@ -10,6 +13,32 @@ public class ItemUtil
     {
         if (a.isEmpty() || b.isEmpty()) return true;
         return ItemHandlerHelper.canItemStacksStack(a, b) && a.getCount() + b.getCount() <= a.getMaxStackSize();
+    }
+
+    public static ItemStack getStackIfPlayerHas(final ItemStack referenceStack, final PlayerEntity player)
+    {
+        for (final ItemStack stack : player.inventory.mainInventory)
+        {
+            if (stack.isItemEqual(referenceStack))
+            {
+                return stack;
+            }
+        }
+
+        return null;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static int getFirstSlotIfPlayerHas(final ItemStack itemStack, final PlayerEntity player)
+    {
+        ItemStack stack = getStackIfPlayerHas(itemStack, player);
+
+        if (stack != null)
+        {
+            return player.inventory.getSlotFor(stack);
+        }
+
+        return -1;
     }
 
     public static boolean getBoolean(ItemStack stack, String tag, boolean defaultExpected)

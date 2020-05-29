@@ -89,7 +89,7 @@ public class MagnetItem extends Item
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
     {
-        if (entity instanceof PlayerEntity /*&& !world.isRemote*/ && !entity.isSpectator() && isEnabled(stack))
+        if (entity instanceof PlayerEntity /*&& !world.isRemote*/ && !entity.isSpectator())
         {
             int cooldown = getCooldown(stack);
 
@@ -104,7 +104,7 @@ public class MagnetItem extends Item
 
             if (cooldown <= 0)
             {
-                if (entity.isSneaking() == isInverted(stack))
+                if (isEnabled(stack) && entity.isSneaking() == isInverted(stack))
                 {
                     double x = entity.getPosX();
                     double y = entity.getPosY() + 0.75;
