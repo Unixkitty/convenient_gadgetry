@@ -61,7 +61,7 @@ public class BucketArmorItem extends ArmorItem
     {
         super.addInformation(stack, worldIn, tooltip, flagIn);
 
-        tooltip.add(new TranslationTextComponent("text.convenient_gadgetry.bucket.info").applyTextStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("text.convenient_gadgetry.bucket.info").mergeStyle(TextFormatting.GRAY));
     }
 
     @Override
@@ -132,6 +132,12 @@ public class BucketArmorItem extends ArmorItem
         public float getToughness()
         {
             return ArmorMaterial.DIAMOND.getToughness() / 2;
+        }
+
+        @Override
+        public float getKnockbackResistance()
+        {
+            return 0.0f;
         }
     }
 }

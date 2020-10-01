@@ -4,6 +4,7 @@ import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
 import com.unixkitty.convenient_gadgetry.datagen.recipe.CraftingTableRecipes;
 import com.unixkitty.convenient_gadgetry.datagen.recipe.GrinderRecipes;
 import com.unixkitty.convenient_gadgetry.datagen.recipe.SmeltingRecipes;
+import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -19,7 +20,7 @@ public final class DataGenerators
         DataGenerator generator = event.getGenerator();
         if (event.includeServer())
         {
-            generator.addProvider(new ModItemTags(generator));
+            generator.addProvider(new ModItemTags(generator, new BlockTagsProvider(generator)));
             generator.addProvider(new ModLootTables(generator));
             generator.addProvider(new CraftingTableRecipes(generator));
             generator.addProvider(new SmeltingRecipes(generator));

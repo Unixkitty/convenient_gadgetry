@@ -38,6 +38,8 @@ public class MagnetItem extends Item
 
     private static final Field PICKUP_DELAY_FIELD = ObfuscationReflectionHelper.findField(ItemEntity.class, "field_145804_b");
 
+    private boolean tagUnboundErrored = false;
+
     public MagnetItem(Properties properties)
     {
         super(properties);
@@ -52,8 +54,8 @@ public class MagnetItem extends Item
     {
         super.addInformation(stack, world, tooltip, flag);
 
-        tooltip.add(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet.info1", isEnabled(stack)).applyTextStyle(TextFormatting.DARK_AQUA));
-        tooltip.add(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet.info2", isInverted(stack)).applyTextStyle(TextFormatting.DARK_AQUA));
+        tooltip.add(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet.info1", isEnabled(stack)).mergeStyle(TextFormatting.DARK_AQUA));
+        tooltip.add(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet.info2", isInverted(stack)).mergeStyle(TextFormatting.DARK_AQUA));
     }
 
     @Override
@@ -155,19 +157,34 @@ public class MagnetItem extends Item
         }
 
         ItemStack stack = item.getItem();
-        if (stack.isEmpty() || ModTags.Items.MAGNET_BLACKLIST.contains(stack.getItem()))
+
+        //TODO tag used before bound?
+        try
         {
-            return false;
+            if (stack.isEmpty() || ModTags.Items.MAGNET_BLACKLIST.contains(stack.getItem()))
+            {
+                return false;
+            }
+
+            BlockPos pos = item.getPosition();
+
+            if (ModTags.Blocks.MAGNET_BLACKLIST.contains(item.world.getBlockState(pos).getBlock()))
+            {
+                return false;
+            }
+
+            return !ModTags.Blocks.MAGNET_BLACKLIST.contains(item.world.getBlockState(pos.down()).getBlock());
         }
-
-        BlockPos pos = new BlockPos(item);
-
-        if (ModTags.Blocks.MAGNET_BLACKLIST.contains(item.world.getBlockState(pos).getBlock()))
+        catch (IllegalStateException e)
         {
-            return false;
-        }
+            if (!tagUnboundErrored)
+            {
+                tagUnboundErrored = true;
+                ConvenientGadgetry.log().warn(e.getLocalizedMessage());
+            }
 
-        return !ModTags.Blocks.MAGNET_BLACKLIST.contains(item.world.getBlockState(pos.down()).getBlock());
+            return true;
+        }
     }
 
     public static boolean isEnabled(ItemStack stack)
@@ -214,6 +231,6 @@ public class MagnetItem extends Item
 
     private static void informPlayer(final PlayerEntity player, final ItemStack stack, String tag)
     {
-        player.sendMessage(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet_" + tag, isEnabled(stack)));
+        player.sendMessage(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet_" + tag, isEnabled(stack)), player.getUniqueID());
     }
 }

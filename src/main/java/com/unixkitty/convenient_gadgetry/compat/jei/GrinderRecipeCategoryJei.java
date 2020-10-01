@@ -1,6 +1,6 @@
 package com.unixkitty.convenient_gadgetry.compat.jei;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
 import com.unixkitty.convenient_gadgetry.api.recipe.IGrinderRecipe;
 import com.unixkitty.convenient_gadgetry.client.gui.GrinderScreen;
@@ -17,9 +17,9 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class GrinderRecipeCategoryJei implements IRecipeCategory<GrinderRecipe>
         this.background = guiHelper.createDrawable(GrinderScreen.BACKGROUND_TEXTURE, GUI_START_X - JeiPlugin.GUI_OFFSET, GUI_START_Y - JeiPlugin.GUI_OFFSET, GUI_WIDTH + JeiPlugin.GUI_OFFSET, GUI_HEIGHT + JeiPlugin.GUI_OFFSET);
         this.icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.GRINDER.get()));
         this.arrow = guiHelper.drawableBuilder(GrinderScreen.BACKGROUND_TEXTURE, GrinderScreen.ARROW_START_X, GrinderScreen.ARROW_START_Y, GrinderScreen.ARROW_WIDTH, GrinderScreen.ARROW_HEIGHT).buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
-        this.localizedName = new TranslationTextComponent("jei." + ConvenientGadgetry.MODID + ".category.grinding").getFormattedText();
+        this.localizedName = I18n.format("jei." + ConvenientGadgetry.MODID + ".category.grinding");
     }
 
     @Override
@@ -103,7 +103,8 @@ public class GrinderRecipeCategoryJei implements IRecipeCategory<GrinderRecipe>
         {
             itemStacks.set(i + 1, outputs.get(i).getKey());
 
-            float chance = outputs.get(i).getValue();
+            //TODO chance displayed is wrong if more than one output with a chance
+            /*float chance = outputs.get(i).getValue();
 
             if (chance < 1)
             {
@@ -111,17 +112,17 @@ public class GrinderRecipeCategoryJei implements IRecipeCategory<GrinderRecipe>
                 {
                     if (!input)
                     {
-                        tooltip.add(new TranslationTextComponent("jei.convenient_gadgetry.chance", asPercent(chance)).getFormattedText());
+                        tooltip.add(new StringTextComponent(I18n.format("jei.convenient_gadgetry.chance", asPercent(chance))));
                     }
                 });
-            }
+            }*/
         }
     }
 
     @Override
-    public void draw(GrinderRecipe recipe, double mouseX, double mouseY)
+    public void draw(GrinderRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY)
     {
-        this.arrow.draw(30, 19);
+        this.arrow.draw(matrixStack, 30, 19);
 
         FontRenderer font = Minecraft.getInstance().fontRenderer;
 
@@ -129,7 +130,7 @@ public class GrinderRecipeCategoryJei implements IRecipeCategory<GrinderRecipe>
 
         if (recipe.getCranksRequired() != IGrinderRecipe.CRANKS_DEFAULT)
         {
-            drawText(font, "Crank turns: " + recipe.getCranksRequired(), 0, GUI_HEIGHT / ModGuiHandler.SLOT_Y_SPACING);
+            drawText(matrixStack, font, "Crank turns: " + recipe.getCranksRequired(), 0, GUI_HEIGHT / ModGuiHandler.SLOT_Y_SPACING);
         }
 
         for (int i = 0; i < outputs.size(); i++)
@@ -138,23 +139,24 @@ public class GrinderRecipeCategoryJei implements IRecipeCategory<GrinderRecipe>
 
             if (chance < 1)
             {
-                drawText(font, asPercent(chance), 61 + 18 * i, 40);
+                drawText(matrixStack, font, asPercent(chance), 61 + 18 * i, 40);
             }
         }
     }
 
-    private void drawText(FontRenderer fontRenderer, String text, int x, int y)
+    //TODO test how this looks after 1.16.1 update
+    private void drawText(MatrixStack matrixStack, FontRenderer fontRenderer, String text, int x, int y)
     {
-        RenderSystem.pushMatrix();
-        RenderSystem.scalef(1f, 1f, 1f);
-        boolean wasUnicode = fontRenderer.getBidiFlag();
+        matrixStack.push();
+        matrixStack.scale(1f, 1f, 1f);
+//        boolean wasUnicode = fontRenderer.getBidiFlag();
 
-        fontRenderer.setBidiFlag(false);
+//        fontRenderer.setBidiFlag(false);
 
-        fontRenderer.drawString(text, x, y, 5592405);
+        fontRenderer.drawString(matrixStack, text, x, y, 5592405);
 
-        fontRenderer.setBidiFlag(wasUnicode);
-        RenderSystem.popMatrix();
+//        fontRenderer.setBidiFlag(wasUnicode);
+        matrixStack.pop();
     }
 
     private String asPercent(float chance)

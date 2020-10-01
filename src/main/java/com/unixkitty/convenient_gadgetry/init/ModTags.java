@@ -1,39 +1,22 @@
 package com.unixkitty.convenient_gadgetry.init;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
+import com.unixkitty.gemspork.item.TagHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.tags.ITag;
 
 public class ModTags
 {
     public static class Items
     {
-        public static final Tag<Item> INGOT_MAGNETIC = forgeTag("ingots/magnetic");
+        public static final ITag.INamedTag<Item> INGOT_MAGNETIC = TagHelper.forgeItemTag("ingots", "magnetic");
 
-        public static final Tag<Item> MAGNET_BLACKLIST = tag("magnet_blacklist");
-
-        private static Tag<Item> tag(String name)
-        {
-            return new ItemTags.Wrapper(new ResourceLocation(ConvenientGadgetry.MODID, name));
-        }
-
-        private static Tag<Item> forgeTag(String name)
-        {
-            return new ItemTags.Wrapper(new ResourceLocation("forge", name));
-        }
+        public static final ITag.INamedTag<Item> MAGNET_BLACKLIST = TagHelper.itemTag(ConvenientGadgetry.MODID, "magnet_blacklist");
     }
 
     public static class Blocks
     {
-        public static final Tag<Block> MAGNET_BLACKLIST = tag("magnet_blacklist");
-
-        private static Tag<Block> tag(String name)
-        {
-            return new BlockTags.Wrapper(new ResourceLocation(ConvenientGadgetry.MODID, name));
-        }
+        public static final ITag<Block> MAGNET_BLACKLIST = TagHelper.blockTag(ConvenientGadgetry.MODID, "magnet_blacklist");
     }
 }

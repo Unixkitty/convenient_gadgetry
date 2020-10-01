@@ -8,7 +8,6 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.DirectionProperty;
@@ -67,7 +66,7 @@ public class CrankBlock extends Block
 
     public CrankBlock()
     {
-        super(Block.Properties.from(Blocks.OAK_PLANKS));
+        super(Block.Properties.from(Blocks.OAK_PLANKS).setAllowsSpawn(ModBlocks::neverAllowSpawn));
 
         this.setDefaultState(this.stateContainer.getBaseState().with(FACING_PROPERTY, Direction.NORTH));
     }
@@ -168,7 +167,7 @@ public class CrankBlock extends Block
     {
         super.addInformation(stack, worldIn, tooltip, flagIn);
 
-        tooltip.add(new TranslationTextComponent("text.convenient_gadgetry.crank.info").applyTextStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("text.convenient_gadgetry.crank.info").mergeStyle(TextFormatting.GRAY));
     }
 
     @Override
@@ -187,12 +186,6 @@ public class CrankBlock extends Block
                 this.dropCrank(world, pos);
             }
         }
-    }
-
-    @Override
-    public boolean canEntitySpawn(BlockState state, IBlockReader worldIn, BlockPos pos, EntityType<?> type)
-    {
-        return false;
     }
 
     public void dropCrank(World world, BlockPos pos)

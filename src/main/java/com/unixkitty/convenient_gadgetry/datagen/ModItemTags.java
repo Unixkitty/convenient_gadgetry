@@ -4,29 +4,52 @@ import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
 import com.unixkitty.convenient_gadgetry.init.ModItems;
 import com.unixkitty.convenient_gadgetry.init.ModTags;
 import com.unixkitty.convenient_gadgetry.item.Dust;
-import com.unixkitty.gemspork.lib.datagen.ItemTagProvider;
+import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.ItemTagsProvider;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
 
+import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
-public class ModItemTags extends ItemTagProvider
+public class ModItemTags extends ItemTagsProvider
 {
-    public ModItemTags(DataGenerator generatorIn)
+    private Set<ResourceLocation> filter = null;
+
+    public ModItemTags(DataGenerator generatorIn, BlockTagsProvider blockTagProvider)
     {
-        super(ConvenientGadgetry.MODID, generatorIn);
+        super(generatorIn, blockTagProvider);
     }
 
     @Override
-    protected void registerCustomTags()
+    protected void registerTags()
     {
+        super.registerTags();
+
+        filter = new HashSet<>(this.tagToBuilder.keySet());
+
         Arrays.stream(Dust.values()).forEach(dust ->
         {
-            getBuilder(Tags.Items.DUSTS).add(dust.asTag());
-            getBuilder(dust.asTag()).add(dust.asItem());
+            getOrCreateBuilder(Tags.Items.DUSTS).addTag(dust.asTag());
+            getOrCreateBuilder(dust.asTag()).add(dust.asItem());
         });
 
-        getBuilder(Tags.Items.INGOTS).add(ModTags.Items.INGOT_MAGNETIC);
-        getBuilder(ModTags.Items.INGOT_MAGNETIC).add(ModItems.INGOT_MAGNETIC.get());
+        getOrCreateBuilder(Tags.Items.INGOTS).addTag(ModTags.Items.INGOT_MAGNETIC);
+        getOrCreateBuilder(ModTags.Items.INGOT_MAGNETIC).add(ModItems.INGOT_MAGNETIC.get());
+    }
+
+    @Override
+    protected Path makePath(ResourceLocation id)
+    {
+        return filter != null && filter.contains(id) ? null : super.makePath(id); //We don't want to save vanilla tags.
+    }
+
+    @Override
+    public String getName()
+    {
+        return ConvenientGadgetry.MODID + " " + this.getClass().getSimpleName();
     }
 }

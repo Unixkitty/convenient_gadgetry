@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public final class ModTileEntityTypes
 {
-    public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, ConvenientGadgetry.MODID);
+    public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, ConvenientGadgetry.MODID);
 
     public static final RegistryObject<TileEntityType<TileEntityGrinder>> GRINDER = TILE_ENTITY_TYPES.register("grinder", () ->
             TileEntityType.Builder.create(TileEntityGrinder::new, Objects.requireNonNull(ModBlocks.GRINDER).get()).build(null)

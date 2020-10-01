@@ -104,5 +104,12 @@ public class CraftingTableRecipes extends CraftingTableRecipeProvider
                 .patternLine("bir")
                 .addCriterion("has_item", hasItem(ModTags.Items.INGOT_MAGNETIC))
                 .build(consumer);
+
+        //dev_null
+        /*ShapelessRecipeBuilder.shapelessRecipe(ModItems.DEV_NULL.get())
+                .addIngredient(Blocks.COBBLESTONE)
+                .addIngredient(Items.APPLE)
+                .addCriterion("has_apple", hasItem(Items.APPLE))
+                .build(consumer);*/
     }
 }

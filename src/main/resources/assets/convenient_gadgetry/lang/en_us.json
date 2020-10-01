@@ -31,6 +31,7 @@
   "item.convenient_gadgetry.cotton": "Cotton Seeds",
 
   "item.convenient_gadgetry.magnet": "Item Magnet",
+  "item.convenient_gadgetry.dev_null": "/dev/null",
 
   "text.convenient_gadgetry.bucket.info": "Put on your head",
   "text.convenient_gadgetry.crank.info": "Put on top of a grinder",

@@ -11,7 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 
@@ -41,7 +41,7 @@ public class SmeltingRecipes extends SmeltingRecipeProvider
         basicBlasting(consumer, Dust.MAGNETIC.asTag(), ModItems.INGOT_MAGNETIC.get(), "magnetic_ingot_from_dust");
     }
 
-    private void basicCooking(Consumer<IFinishedRecipe> consumer, Tag<Item> input, IItemProvider result, String name)
+    private void basicCooking(Consumer<IFinishedRecipe> consumer, ITag<Item> input, IItemProvider result, String name)
     {
         CookingRecipeBuilder.smeltingRecipe(
                 Ingredient.fromTag(input),
@@ -52,7 +52,7 @@ public class SmeltingRecipes extends SmeltingRecipeProvider
                 .build(consumer, new ResourceLocation(ConvenientGadgetry.MODID, "smelting/" + name));
     }
 
-    private void basicBlasting(Consumer<IFinishedRecipe> consumer, Tag<Item> input, IItemProvider result, String name)
+    private void basicBlasting(Consumer<IFinishedRecipe> consumer, ITag<Item> input, IItemProvider result, String name)
     {
         CookingRecipeBuilder.blastingRecipe(
                 Ingredient.fromTag(input),
@@ -63,7 +63,7 @@ public class SmeltingRecipes extends SmeltingRecipeProvider
                 .build(consumer, new ResourceLocation(ConvenientGadgetry.MODID, "blasting/" + name));
     }
 
-    private void basicSmoking(Consumer<IFinishedRecipe> consumer, Tag<Item> input, IItemProvider result, String name)
+    private void basicSmoking(Consumer<IFinishedRecipe> consumer, ITag<Item> input, IItemProvider result, String name)
     {
         CookingRecipeBuilder.cookingRecipe(
                 Ingredient.fromTag(input),

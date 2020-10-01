@@ -1,9 +1,9 @@
 package com.unixkitty.convenient_gadgetry.block;
 
 import com.unixkitty.convenient_gadgetry.block.tileentity.TileEntityTrashcan;
+import com.unixkitty.convenient_gadgetry.init.ModBlocks;
 import com.unixkitty.convenient_gadgetry.init.ModTileEntityTypes;
 import net.minecraft.block.*;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -35,7 +35,7 @@ public class TrashcanBlock extends ContainerBlock
 
     public TrashcanBlock()
     {
-        super(Block.Properties.from(Blocks.IRON_BLOCK));
+        super(Block.Properties.from(Blocks.IRON_BLOCK).setAllowsSpawn(ModBlocks::neverAllowSpawn));
     }
 
     /**
@@ -69,12 +69,6 @@ public class TrashcanBlock extends ContainerBlock
     public TileEntity createNewTileEntity(IBlockReader worldIn)
     {
         return ModTileEntityTypes.TRASHCAN.get().create();
-    }
-
-    @Override
-    public boolean canEntitySpawn(BlockState state, IBlockReader worldIn, BlockPos pos, EntityType<?> type)
-    {
-        return false;
     }
 
     @Override

@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModContainerTypes
 {
-    public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPES = new DeferredRegister<>(ForgeRegistries.CONTAINERS, ConvenientGadgetry.MODID);
+    public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPES = DeferredRegister.create(ForgeRegistries.CONTAINERS, ConvenientGadgetry.MODID);
 
     public static final RegistryObject<ContainerType<GrinderContainer>> GRINDER = CONTAINER_TYPES.register("quartz_pedestal", () ->
             IForgeContainerType.create(GrinderContainer::new)
@@ -20,4 +20,8 @@ public class ModContainerTypes
     public static final RegistryObject<ContainerType<TrashcanContainer>> TRASHCAN = CONTAINER_TYPES.register("trashcan", () ->
             IForgeContainerType.create(TrashcanContainer::new)
     );
+
+    /*public static final RegistryObject<ContainerType<DevNullContainer>> DEV_NULL = CONTAINER_TYPES.register("dev_null", () ->
+            IForgeContainerType.create(DevNullContainer::new)
+    );*/
 }

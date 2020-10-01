@@ -13,7 +13,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 @SuppressWarnings("unused")
 public final class ModItems
 {
-    public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, ConvenientGadgetry.MODID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ConvenientGadgetry.MODID);
 
     public static final RegistryObject<Item> BUCKET_HELMET = ITEMS.register("bucket_helmet", () -> new BucketArmorItem(basicProperties()));
 
@@ -40,6 +40,7 @@ public final class ModItems
     public static final RegistryObject<Item> INGOT_MAGNETIC = ITEMS.register("ingot_magnetic", () -> new Item(basicProperties()));
 
     public static final RegistryObject<Item> MAGNET = ITEMS.register("magnet", () -> new MagnetItem(basicProperties().maxStackSize(1)));
+//    public static final RegistryObject<Item> DEV_NULL = ITEMS.register("dev_null", () -> new DevNullItem(basicProperties().maxStackSize(1)));
 
     private static RegistryObject<Item> registerDust(Dust dust)
     {
