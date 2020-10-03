@@ -20,7 +20,9 @@ public final class DataGenerators
         DataGenerator generator = event.getGenerator();
         if (event.includeServer())
         {
-            generator.addProvider(new ModItemTags(generator, new BlockTagsProvider(generator)));
+            BlockTagsProvider blockTagsProvider = new ModBlockTags(generator);
+            generator.addProvider(blockTagsProvider);
+            generator.addProvider(new ModItemTags(generator, blockTagsProvider));
             generator.addProvider(new ModLootTables(generator));
             generator.addProvider(new CraftingTableRecipes(generator));
             generator.addProvider(new SmeltingRecipes(generator));

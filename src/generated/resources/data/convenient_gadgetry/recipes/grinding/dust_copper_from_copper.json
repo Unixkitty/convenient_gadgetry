@@ -1,0 +1,15 @@
+{
+  "type": "convenient_gadgetry:grinding",
+  "input": {
+    "tag": "forge:ingots/copper"
+  },
+  "cranks_required": 8,
+  "outputs": [
+    {
+      "output": {
+        "item": "convenient_gadgetry:dust_copper"
+      },
+      "chance": 1.0
+    }
+  ]
+}

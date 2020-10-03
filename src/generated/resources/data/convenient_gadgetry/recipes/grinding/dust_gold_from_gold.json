@@ -1,0 +1,15 @@
+{
+  "type": "convenient_gadgetry:grinding",
+  "input": {
+    "tag": "forge:ingots/gold"
+  },
+  "cranks_required": 8,
+  "outputs": [
+    {
+      "output": {
+        "item": "convenient_gadgetry:dust_gold"
+      },
+      "chance": 1.0
+    }
+  ]
+}

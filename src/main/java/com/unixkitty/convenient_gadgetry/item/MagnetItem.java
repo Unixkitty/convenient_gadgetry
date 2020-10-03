@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -37,8 +36,6 @@ public class MagnetItem extends Item
     private static final int range = 8;
 
     private static final Field PICKUP_DELAY_FIELD = ObfuscationReflectionHelper.findField(ItemEntity.class, "field_145804_b");
-
-    private boolean tagUnboundErrored = false;
 
     public MagnetItem(Properties properties)
     {
@@ -158,33 +155,16 @@ public class MagnetItem extends Item
 
         ItemStack stack = item.getItem();
 
-        //TODO tag used before bound?
-        try
+        return !stack.isEmpty() && !ModTags.Items.MAGNET_BLACKLIST.contains(stack.getItem());
+
+/*        BlockPos pos = item.getPosition();
+
+        if (ModTags.Blocks.MAGNET_BLACKLIST.contains(item.world.getBlockState(pos).getBlock()))
         {
-            if (stack.isEmpty() || ModTags.Items.MAGNET_BLACKLIST.contains(stack.getItem()))
-            {
-                return false;
-            }
-
-            BlockPos pos = item.getPosition();
-
-            if (ModTags.Blocks.MAGNET_BLACKLIST.contains(item.world.getBlockState(pos).getBlock()))
-            {
-                return false;
-            }
-
-            return !ModTags.Blocks.MAGNET_BLACKLIST.contains(item.world.getBlockState(pos.down()).getBlock());
+            return false;
         }
-        catch (IllegalStateException e)
-        {
-            if (!tagUnboundErrored)
-            {
-                tagUnboundErrored = true;
-                ConvenientGadgetry.log().warn(e.getLocalizedMessage());
-            }
 
-            return true;
-        }
+        return !ModTags.Blocks.MAGNET_BLACKLIST.contains(item.world.getBlockState(pos.down()).getBlock());*/
     }
 
     public static boolean isEnabled(ItemStack stack)

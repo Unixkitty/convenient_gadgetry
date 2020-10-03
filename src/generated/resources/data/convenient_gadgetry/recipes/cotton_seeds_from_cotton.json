@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "convenient_gadgetry:crop_cotton"
+    }
+  ],
+  "result": {
+    "item": "convenient_gadgetry:cotton",
+    "count": 2
+  }
+}

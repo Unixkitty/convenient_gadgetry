@@ -1,0 +1,16 @@
+{
+  "type": "convenient_gadgetry:grinding",
+  "input": {
+    "item": "minecraft:redstone_ore"
+  },
+  "cranks_required": 4,
+  "outputs": [
+    {
+      "output": {
+        "item": "minecraft:redstone",
+        "count": 6
+      },
+      "chance": 1.0
+    }
+  ]
+}

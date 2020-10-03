@@ -17,6 +17,6 @@ public class ModTags
 
     public static class Blocks
     {
-        public static final ITag<Block> MAGNET_BLACKLIST = TagHelper.blockTag(ConvenientGadgetry.MODID, "magnet_blacklist");
+        public static final ITag.INamedTag<Block> MAGNET_BLACKLIST = TagHelper.blockTag(ConvenientGadgetry.MODID, "magnet_blacklist");
     }
 }

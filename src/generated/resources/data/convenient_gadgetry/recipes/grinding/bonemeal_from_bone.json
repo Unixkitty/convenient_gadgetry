@@ -1,0 +1,16 @@
+{
+  "type": "convenient_gadgetry:grinding",
+  "input": {
+    "tag": "forge:bones"
+  },
+  "cranks_required": 8,
+  "outputs": [
+    {
+      "output": {
+        "item": "minecraft:bone_meal",
+        "count": 6
+      },
+      "chance": 1.0
+    }
+  ]
+}

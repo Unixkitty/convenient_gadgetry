@@ -7,6 +7,7 @@ import com.unixkitty.convenient_gadgetry.item.Dust;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
 
@@ -36,6 +37,8 @@ public class ModItemTags extends ItemTagsProvider
             getOrCreateBuilder(Tags.Items.DUSTS).addTag(dust.asTag());
             getOrCreateBuilder(dust.asTag()).add(dust.asItem());
         });
+
+        getOrCreateBuilder(ModTags.Items.MAGNET_BLACKLIST).add(Items.AIR);
 
         getOrCreateBuilder(Tags.Items.INGOTS).addTag(ModTags.Items.INGOT_MAGNETIC);
         getOrCreateBuilder(ModTags.Items.INGOT_MAGNETIC).add(ModItems.INGOT_MAGNETIC.get());
