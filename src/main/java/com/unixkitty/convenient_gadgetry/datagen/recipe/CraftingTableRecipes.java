@@ -95,6 +95,15 @@ public class CraftingTableRecipes extends CraftingTableRecipeProvider
                 .addCriterion("has_redstone_dust", hasItem(Tags.Items.DUSTS_REDSTONE))
                 .build(consumer);
 
+        //Brass dust
+        ShapelessRecipeBuilder.shapelessRecipe(ModItems.DUST_BRASS.get(), 4)
+                .addIngredient(Dust.ZINC.asTag())
+                .addIngredient(Dust.COPPER.asTag())
+                .addIngredient(Dust.COPPER.asTag())
+                .addIngredient(Dust.COPPER.asTag())
+                .addCriterion("has_zinc_dust", hasItem(Dust.ZINC.asTag()))
+                .build(consumer);
+
         //Magnet
         ShapedRecipeBuilder.shapedRecipe(ModItems.MAGNET.get())
                 .key('b', Tags.Items.DYES_BLUE)

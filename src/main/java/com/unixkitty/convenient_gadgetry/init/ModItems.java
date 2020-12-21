@@ -36,6 +36,8 @@ public final class ModItems
     public static final RegistryObject<Item> DUST_FLOUR = registerDust(Dust.FLOUR);
     public static final RegistryObject<Item> DUST_CHARCOAL = registerDust(Dust.CHARCOAL);
     public static final RegistryObject<Item> DUST_MAGNETIC = registerDust(Dust.MAGNETIC);
+    public static final RegistryObject<Item> DUST_BRASS = registerDust(Dust.BRASS);
+    public static final RegistryObject<Item> DUST_ZINC = registerDust(Dust.ZINC);
 
     public static final RegistryObject<Item> INGOT_MAGNETIC = ITEMS.register("ingot_magnetic", () -> new Item(basicProperties()));
 

@@ -26,7 +26,7 @@ public class TrashcanScreen extends ContainerScreen<TrashcanContainer>
     {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.func_230459_a_(matrixStack, mouseX, mouseY); //renderHoveredToolTip
+        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override

@@ -8,30 +8,21 @@ import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.item.Items;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
-import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 public class ModItemTags extends ItemTagsProvider
 {
-    private Set<ResourceLocation> filter = null;
-
-    public ModItemTags(DataGenerator generatorIn, BlockTagsProvider blockTagProvider)
+    public ModItemTags(DataGenerator generatorIn, ExistingFileHelper existingFileHelper, BlockTagsProvider blockTagProvider)
     {
-        super(generatorIn, blockTagProvider);
+        super(generatorIn, blockTagProvider, ConvenientGadgetry.MODID, existingFileHelper);
     }
 
     @Override
     protected void registerTags()
     {
-        super.registerTags();
-
-        filter = new HashSet<>(this.tagToBuilder.keySet());
-
         Arrays.stream(Dust.values()).forEach(dust ->
         {
             getOrCreateBuilder(Tags.Items.DUSTS).addTag(dust.asTag());
@@ -42,12 +33,6 @@ public class ModItemTags extends ItemTagsProvider
 
         getOrCreateBuilder(Tags.Items.INGOTS).addTag(ModTags.Items.INGOT_MAGNETIC);
         getOrCreateBuilder(ModTags.Items.INGOT_MAGNETIC).add(ModItems.INGOT_MAGNETIC.get());
-    }
-
-    @Override
-    protected Path makePath(ResourceLocation id)
-    {
-        return filter != null && filter.contains(id) ? null : super.makePath(id); //We don't want to save vanilla tags.
     }
 
     @Override

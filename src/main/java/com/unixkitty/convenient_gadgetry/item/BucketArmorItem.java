@@ -2,7 +2,6 @@ package com.unixkitty.convenient_gadgetry.item;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
 import com.unixkitty.convenient_gadgetry.client.render.model.BucketOnHeadModel;
-import com.unixkitty.gemspork.item.DynamicTieredArmorProperties;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;

@@ -5,35 +5,19 @@ import com.unixkitty.convenient_gadgetry.init.ModTags;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.util.ResourceLocation;
-
-import java.nio.file.Path;
-import java.util.HashSet;
-import java.util.Set;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class ModBlockTags extends BlockTagsProvider
 {
-    private Set<ResourceLocation> filter = null;
-
-    public ModBlockTags(DataGenerator generatorIn)
+    public ModBlockTags(DataGenerator generatorIn, ExistingFileHelper existingFileHelper)
     {
-        super(generatorIn);
+        super(generatorIn, ConvenientGadgetry.MODID, existingFileHelper);
     }
 
     @Override
     protected void registerTags()
     {
-        super.registerTags();
-
-        filter = new HashSet<>(this.tagToBuilder.keySet());
-
         getOrCreateBuilder(ModTags.Blocks.MAGNET_BLACKLIST).add(Blocks.AIR);
-    }
-
-    @Override
-    protected Path makePath(ResourceLocation id)
-    {
-        return filter != null && filter.contains(id) ? null : super.makePath(id); //We don't want to save vanilla tags.
     }
 
     @Override
