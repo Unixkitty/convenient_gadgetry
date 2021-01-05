@@ -1,8 +1,8 @@
 package com.unixkitty.convenient_gadgetry.datagen.recipe;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
-import com.unixkitty.convenient_gadgetry.init.ModItems;
 import com.unixkitty.convenient_gadgetry.item.Dust;
+import com.unixkitty.convenient_gadgetry.item.Ingot;
 import com.unixkitty.gemspork.lib.datagen.recipe.SmeltingRecipeProvider;
 import net.minecraft.data.CookingRecipeBuilder;
 import net.minecraft.data.DataGenerator;
@@ -15,6 +15,7 @@ import net.minecraft.tags.ITag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 public class SmeltingRecipes extends SmeltingRecipeProvider
@@ -27,18 +28,20 @@ public class SmeltingRecipes extends SmeltingRecipeProvider
     @Override
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer)
     {
-        basicCooking(consumer, Dust.IRON.asTag(), Items.IRON_INGOT, "iron_ingot_from_dust");
-        basicBlasting(consumer, Dust.IRON.asTag(), Items.IRON_INGOT, "iron_ingot_from_dust");
+        ingot(consumer, Dust.IRON.asTag(), Items.IRON_INGOT, "iron_ingot_from_dust");
+        ingot(consumer, Dust.GOLD.asTag(), Items.GOLD_INGOT, "gold_ingot_from_dust");
 
-        basicCooking(consumer, Dust.GOLD.asTag(), Items.GOLD_INGOT, "gold_ingot_from_dust");
-        basicBlasting(consumer, Dust.GOLD.asTag(), Items.GOLD_INGOT, "gold_ingot_from_dust");
+        Arrays.stream(Ingot.values()).forEach(ingot -> ingot(consumer, Dust.valueOf(ingot.name()).asTag(), ingot, ingot.toString() + "_from_dust"));
 
         basicCooking(consumer, Dust.SULFUR.asTag(), Items.GUNPOWDER, "gunpowder_from_sulfur");
         basicCooking(consumer, Dust.FLOUR.asTag(), Items.BREAD, "bread_from_flour");
         basicSmoking(consumer, Dust.FLOUR.asTag(), Items.BREAD, "bread_from_flour");
+    }
 
-        basicCooking(consumer, Dust.MAGNETIC.asTag(), ModItems.INGOT_MAGNETIC.get(), "magnetic_ingot_from_dust");
-        basicBlasting(consumer, Dust.MAGNETIC.asTag(), ModItems.INGOT_MAGNETIC.get(), "magnetic_ingot_from_dust");
+    private void ingot(Consumer<IFinishedRecipe> consumer, ITag<Item> input, IItemProvider result, String name)
+    {
+        basicCooking(consumer, input, result, name);
+        basicBlasting(consumer, input, result, name);
     }
 
     private void basicCooking(Consumer<IFinishedRecipe> consumer, ITag<Item> input, IItemProvider result, String name)

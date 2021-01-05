@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "forge:dusts/aluminum"
+  },
+  "result": "convenient_gadgetry:ingot_aluminum",
+  "experience": 0.0,
+  "cookingtime": 200
+}

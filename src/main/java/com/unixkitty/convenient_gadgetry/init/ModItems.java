@@ -3,6 +3,7 @@ package com.unixkitty.convenient_gadgetry.init;
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
 import com.unixkitty.convenient_gadgetry.item.BucketArmorItem;
 import com.unixkitty.convenient_gadgetry.item.Dust;
+import com.unixkitty.convenient_gadgetry.item.Ingot;
 import com.unixkitty.convenient_gadgetry.item.MagnetItem;
 import com.unixkitty.convenient_gadgetry.itemgroup.ModItemGroups;
 import net.minecraft.item.Item;
@@ -39,7 +40,16 @@ public final class ModItems
     public static final RegistryObject<Item> DUST_BRASS = registerDust(Dust.BRASS);
     public static final RegistryObject<Item> DUST_ZINC = registerDust(Dust.ZINC);
 
-    public static final RegistryObject<Item> INGOT_MAGNETIC = ITEMS.register("ingot_magnetic", () -> new Item(basicProperties()));
+    public static final RegistryObject<Item> INGOT_ALUMINUM = registerIngot(Ingot.ALUMINUM);
+    public static final RegistryObject<Item> INGOT_COPPER = registerIngot(Ingot.COPPER);
+    public static final RegistryObject<Item> INGOT_LEAD = registerIngot(Ingot.LEAD);
+    public static final RegistryObject<Item> INGOT_NICKEL = registerIngot(Ingot.NICKEL);
+    public static final RegistryObject<Item> INGOT_SILVER = registerIngot(Ingot.SILVER);
+    public static final RegistryObject<Item> INGOT_TIN = registerIngot(Ingot.TIN);
+    public static final RegistryObject<Item> INGOT_BRONZE = registerIngot(Ingot.BRONZE);
+    public static final RegistryObject<Item> INGOT_MAGNETIC = registerIngot(Ingot.MAGNETIC);
+    public static final RegistryObject<Item> INGOT_BRASS = registerIngot(Ingot.BRASS);
+    public static final RegistryObject<Item> INGOT_ZINC = registerIngot(Ingot.ZINC);
 
     public static final RegistryObject<Item> MAGNET = ITEMS.register("magnet", () -> new MagnetItem(basicProperties().maxStackSize(1)));
 //    public static final RegistryObject<Item> DEV_NULL = ITEMS.register("dev_null", () -> new DevNullItem(basicProperties().maxStackSize(1)));
@@ -47,6 +57,11 @@ public final class ModItems
     private static RegistryObject<Item> registerDust(Dust dust)
     {
         return ITEMS.register(dust.toString(), dust::asItem);
+    }
+
+    private static RegistryObject<Item> registerIngot(Ingot ingot)
+    {
+        return ITEMS.register(ingot.toString(), ingot::asItem);
     }
 
     private static Item.Properties basicProperties()

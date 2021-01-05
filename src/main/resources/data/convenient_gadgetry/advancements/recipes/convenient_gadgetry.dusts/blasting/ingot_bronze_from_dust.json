@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "convenient_gadgetry:smelting/magnetic_ingot_from_dust"
+      "convenient_gadgetry:blasting/ingot_bronze_from_dust"
     ]
   },
   "criteria": {
@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:dusts/magnetic"
+            "tag": "forge:dusts/bronze"
           }
         ]
       }
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "convenient_gadgetry:smelting/magnetic_ingot_from_dust"
+        "recipe": "convenient_gadgetry:blasting/ingot_bronze_from_dust"
       }
     }
   },

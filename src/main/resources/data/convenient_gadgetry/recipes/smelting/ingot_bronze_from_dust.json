@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "forge:dusts/bronze"
+  },
+  "result": "convenient_gadgetry:ingot_bronze",
+  "experience": 0.0,
+  "cookingtime": 200
+}

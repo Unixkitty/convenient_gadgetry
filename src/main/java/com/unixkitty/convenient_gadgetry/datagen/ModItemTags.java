@@ -1,9 +1,9 @@
 package com.unixkitty.convenient_gadgetry.datagen;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
-import com.unixkitty.convenient_gadgetry.init.ModItems;
 import com.unixkitty.convenient_gadgetry.init.ModTags;
 import com.unixkitty.convenient_gadgetry.item.Dust;
+import com.unixkitty.convenient_gadgetry.item.Ingot;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
@@ -29,10 +29,13 @@ public class ModItemTags extends ItemTagsProvider
             getOrCreateBuilder(dust.asTag()).add(dust.asItem());
         });
 
-        getOrCreateBuilder(ModTags.Items.MAGNET_BLACKLIST).add(Items.AIR);
+        Arrays.stream(Ingot.values()).forEach(ingot ->
+        {
+            getOrCreateBuilder(Tags.Items.INGOTS).addTag(ingot.asTag());
+            getOrCreateBuilder(ingot.asTag()).add(ingot.asItem());
+        });
 
-        getOrCreateBuilder(Tags.Items.INGOTS).addTag(ModTags.Items.INGOT_MAGNETIC);
-        getOrCreateBuilder(ModTags.Items.INGOT_MAGNETIC).add(ModItems.INGOT_MAGNETIC.get());
+        getOrCreateBuilder(ModTags.Items.MAGNET_BLACKLIST).add(Items.AIR);
     }
 
     @Override

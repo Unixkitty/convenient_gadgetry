@@ -28,6 +28,15 @@
   "item.convenient_gadgetry.dust_magnetic": "Magnetic Alloy Dust",
 
   "item.convenient_gadgetry.ingot_magnetic": "Magnetic Alloy",
+  "item.convenient_gadgetry.ingot_aluminum": "Aluminum Ingot",
+  "item.convenient_gadgetry.ingot_copper": "Copper Ingot",
+  "item.convenient_gadgetry.ingot_lead": "Lead Ingot",
+  "item.convenient_gadgetry.ingot_nickel": "Nickel Ingot",
+  "item.convenient_gadgetry.ingot_silver": "Silver Ingot",
+  "item.convenient_gadgetry.ingot_tin": "Tin Ingot",
+  "item.convenient_gadgetry.ingot_bronze": "Bronze Ingot",
+  "item.convenient_gadgetry.ingot_zinc": "Zinc Ingot",
+  "item.convenient_gadgetry.ingot_brass": "Brass Ingot",
 
   "item.convenient_gadgetry.crop_cotton": "Cotton",
   "item.convenient_gadgetry.cotton": "Cotton Seeds",
