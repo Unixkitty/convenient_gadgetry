@@ -58,7 +58,7 @@ public class CraftingTableRecipes extends CraftingTableRecipeProvider
                 .build(consumer);
 
         //Bronze dust
-        ShapelessRecipeBuilder.shapelessRecipe(Dust.BRONZE.asItem())
+        ShapelessRecipeBuilder.shapelessRecipe(Dust.BRONZE.asItem(), 4)
                 .addIngredient(Dust.TIN.asTag())
                 .addIngredient(Dust.COPPER.asTag())
                 .addIngredient(Dust.COPPER.asTag())
