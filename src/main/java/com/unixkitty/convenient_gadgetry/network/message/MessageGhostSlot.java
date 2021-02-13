@@ -1,22 +1,25 @@
 package com.unixkitty.convenient_gadgetry.network.message;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 
-public class MagnetToggleMessageToServer implements IMessage
+public class MessageGhostSlot implements IMessage
 {
     private boolean isMessageValid;
 
     private int slotIndex;
+    private ItemStack itemStack;
 
-    private MagnetToggleMessageToServer()
+    private MessageGhostSlot()
     {
         this.isMessageValid = false;
     }
 
-    public MagnetToggleMessageToServer(int slotIndex)
+    public MessageGhostSlot(int slotIndex, ItemStack itemStack)
     {
         this.slotIndex = slotIndex;
+        this.itemStack = itemStack;
 
         this.isMessageValid = true;
     }
@@ -24,6 +27,11 @@ public class MagnetToggleMessageToServer implements IMessage
     public int getSlotIndex()
     {
         return this.slotIndex;
+    }
+
+    public ItemStack getItemStack()
+    {
+        return this.itemStack;
     }
 
     @Override
@@ -38,19 +46,21 @@ public class MagnetToggleMessageToServer implements IMessage
         if (!isMessageValid) return;
 
         buffer.writeInt(this.slotIndex);
+        buffer.writeItemStack(this.itemStack);
     }
 
-    public static MagnetToggleMessageToServer decode(PacketBuffer buffer)
+    public static MessageGhostSlot decode(PacketBuffer buffer)
     {
-        MagnetToggleMessageToServer message = new MagnetToggleMessageToServer();
+        MessageGhostSlot message = new MessageGhostSlot();
 
         try
         {
             message.slotIndex = buffer.readInt();
+            message.itemStack = buffer.readItemStack();
         }
         catch (IllegalArgumentException | IndexOutOfBoundsException e)
         {
-            ConvenientGadgetry.log().warn("Exception while reading " + MagnetToggleMessageToServer.class.getSimpleName() + ": " + e);
+            ConvenientGadgetry.log().warn("Exception while reading " + MessageGhostSlot.class.getSimpleName() + ": " + e);
             return message;
         }
 
@@ -62,6 +72,6 @@ public class MagnetToggleMessageToServer implements IMessage
     @Override
     public String toString()
     {
-        return String.format("%s[slotIndex=%s]", getClass().getSimpleName(), this.slotIndex);
+        return String.format("%s[slotIndex=%s,itemStack=%s]", getClass().getSimpleName(), this.slotIndex, this.itemStack);
     }
 }

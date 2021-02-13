@@ -1,6 +1,7 @@
 package com.unixkitty.convenient_gadgetry.init;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
+import com.unixkitty.convenient_gadgetry.container.DevNullContainer;
 import com.unixkitty.convenient_gadgetry.container.GrinderContainer;
 import com.unixkitty.convenient_gadgetry.container.TrashcanContainer;
 import net.minecraft.inventory.container.ContainerType;
@@ -13,7 +14,7 @@ public class ModContainerTypes
 {
     public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPES = DeferredRegister.create(ForgeRegistries.CONTAINERS, ConvenientGadgetry.MODID);
 
-    public static final RegistryObject<ContainerType<GrinderContainer>> GRINDER = CONTAINER_TYPES.register("quartz_pedestal", () ->
+    public static final RegistryObject<ContainerType<GrinderContainer>> GRINDER = CONTAINER_TYPES.register("grinder", () ->
             IForgeContainerType.create(GrinderContainer::new)
     );
 
@@ -21,7 +22,7 @@ public class ModContainerTypes
             IForgeContainerType.create(TrashcanContainer::new)
     );
 
-    /*public static final RegistryObject<ContainerType<DevNullContainer>> DEV_NULL = CONTAINER_TYPES.register("dev_null", () ->
+    public static final RegistryObject<ContainerType<DevNullContainer>> DEV_NULL = CONTAINER_TYPES.register("dev_null", () ->
             IForgeContainerType.create(DevNullContainer::new)
-    );*/
+    );
 }

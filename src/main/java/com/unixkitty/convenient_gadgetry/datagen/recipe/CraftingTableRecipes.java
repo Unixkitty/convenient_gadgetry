@@ -115,10 +115,10 @@ public class CraftingTableRecipes extends CraftingTableRecipeProvider
                 .build(consumer);
 
         //dev_null
-        /*ShapelessRecipeBuilder.shapelessRecipe(ModItems.DEV_NULL.get())
+        ShapelessRecipeBuilder.shapelessRecipe(ModItems.DEV_NULL.get())
                 .addIngredient(Blocks.COBBLESTONE)
                 .addIngredient(Items.APPLE)
                 .addCriterion("has_apple", hasItem(Items.APPLE))
-                .build(consumer);*/
+                .build(consumer);
     }
 }

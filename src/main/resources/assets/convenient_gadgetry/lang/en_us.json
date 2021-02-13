@@ -52,6 +52,8 @@
   "text.convenient_gadgetry.magnet_enabled": "Magnet enabled: %1$s",
   "text.convenient_gadgetry.magnet_inverted": "Magnet inverted: %1$s",
 
+  "text.convenient_gadgetry.dev_null_gui": "/dev/null filter",
+
   "key.convenient_gadgetry.toggle_magnet": "Toggle magnet",
 
   "jei.convenient_gadgetry.category.grinding": "Grinding",

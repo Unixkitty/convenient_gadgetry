@@ -1,9 +1,13 @@
 package com.unixkitty.convenient_gadgetry.network;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
+import com.unixkitty.convenient_gadgetry.container.GhostSlot;
 import com.unixkitty.convenient_gadgetry.item.MagnetItem;
 import com.unixkitty.convenient_gadgetry.network.message.IMessage;
 import com.unixkitty.convenient_gadgetry.network.message.MagnetToggleMessageToServer;
+import com.unixkitty.convenient_gadgetry.network.message.MessageGhostSlot;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -18,6 +22,7 @@ import static net.minecraftforge.fml.network.NetworkDirection.PLAY_TO_SERVER;
 public class MessageHandler
 {
     public static final byte MAGNET_TOGGLE_ID = 1;
+    public static final byte GHOST_SLOT_ID = 2;
 
     public static SimpleChannel INSTANCE;
     public static final ResourceLocation resourceLocation = new ResourceLocation(ConvenientGadgetry.MODID, "message_channel");
@@ -44,14 +49,20 @@ public class MessageHandler
                 MessageHandler::handleServerMessage,
                 Optional.of(PLAY_TO_SERVER)
         );
+        INSTANCE.registerMessage(
+                GHOST_SLOT_ID,
+                MessageGhostSlot.class,
+                MessageGhostSlot::encode,
+                MessageGhostSlot::decode,
+                MessageHandler::handleServerMessage,
+                Optional.of(PLAY_TO_SERVER)
+        );
     }
 
     public static void handleServerMessage(final IMessage message, Supplier<NetworkEvent.Context> contextSupplier)
     {
         NetworkEvent.Context context = contextSupplier.get();
         LogicalSide sideReceived = context.getDirection().getReceptionSide();
-
-        context.setPacketHandled(true);
 
         if (sideReceived != LogicalSide.SERVER || message.isMessageInvalid())
         {
@@ -63,6 +74,24 @@ public class MessageHandler
         {
             context.enqueueWork(() -> MagnetItem.handleKeyPacket(context.getSender(), ((MagnetToggleMessageToServer) message).getSlotIndex()));
         }
+        if (message instanceof MessageGhostSlot && context.getSender() != null)
+        {
+            context.enqueueWork(() ->
+            {
+                Container container = context.getSender().openContainer;
+                if (container != null)
+                {
+                    Slot slot = container.inventorySlots.get(((MessageGhostSlot) message).getSlotIndex());
+
+                    if (slot instanceof GhostSlot)
+                    {
+                        slot.putStack(((MessageGhostSlot) message).getItemStack());
+                    }
+                }
+            });
+        }
+
+        context.setPacketHandled(true);
     }
 
     public static boolean shouldClientAccept(String protocolVersion)

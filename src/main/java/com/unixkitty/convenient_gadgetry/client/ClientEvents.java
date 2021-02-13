@@ -1,6 +1,7 @@
 package com.unixkitty.convenient_gadgetry.client;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
+import com.unixkitty.convenient_gadgetry.client.gui.DevNullScreen;
 import com.unixkitty.convenient_gadgetry.client.gui.GrinderScreen;
 import com.unixkitty.convenient_gadgetry.client.gui.TrashcanScreen;
 import com.unixkitty.convenient_gadgetry.init.ModBlocks;
@@ -18,10 +19,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
@@ -42,19 +43,31 @@ public final class ClientEvents
     @SubscribeEvent
     public static void onFMLClientSetupEvent(final FMLClientSetupEvent event)
     {
+        //Key press handler
         MinecraftForge.EVENT_BUS.register(new InstanceHandler());
 
-        // Register ContainerType Screens
-        // ScreenManager.registerFactory is not safe to call during parallel mod loading so we queue it to run later
-        DeferredWorkQueue.runLater(() ->
+        registerKeys();
+
+        /*DeferredWorkQueue.runLater(() ->
         {
             ScreenManager.registerFactory(ModContainerTypes.GRINDER.get(), GrinderScreen::new);
             ScreenManager.registerFactory(ModContainerTypes.TRASHCAN.get(), TrashcanScreen::new);
-        });
+        });*/
 
         RenderTypeLookup.setRenderLayer(ModBlocks.COTTON.get(), RenderType.getCutout());
+    }
 
-        registerKeys();
+    @SubscribeEvent
+    public static void onParallelDispatching(final ParallelDispatchEvent event)
+    {
+        // Register ContainerType Screens
+        // ScreenManager.registerFactory is not safe to call during parallel mod loading so we queue it to run later
+        event.enqueueWork(() ->
+        {
+            ScreenManager.registerFactory(ModContainerTypes.GRINDER.get(), GrinderScreen::new);
+            ScreenManager.registerFactory(ModContainerTypes.TRASHCAN.get(), TrashcanScreen::new);
+            ScreenManager.registerFactory(ModContainerTypes.DEV_NULL.get(), DevNullScreen::new);
+        });
     }
 
     private static void registerKeys()

@@ -1,10 +1,7 @@
 package com.unixkitty.convenient_gadgetry.init;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
-import com.unixkitty.convenient_gadgetry.item.BucketArmorItem;
-import com.unixkitty.convenient_gadgetry.item.Dust;
-import com.unixkitty.convenient_gadgetry.item.Ingot;
-import com.unixkitty.convenient_gadgetry.item.MagnetItem;
+import com.unixkitty.convenient_gadgetry.item.*;
 import com.unixkitty.convenient_gadgetry.itemgroup.ModItemGroups;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -52,7 +49,7 @@ public final class ModItems
     public static final RegistryObject<Item> INGOT_ZINC = registerIngot(Ingot.ZINC);
 
     public static final RegistryObject<Item> MAGNET = ITEMS.register("magnet", () -> new MagnetItem(basicProperties().maxStackSize(1)));
-//    public static final RegistryObject<Item> DEV_NULL = ITEMS.register("dev_null", () -> new DevNullItem(basicProperties().maxStackSize(1)));
+    public static final RegistryObject<Item> DEV_NULL = ITEMS.register("dev_null", () -> new DevNullItem(basicProperties().maxStackSize(1)));
 
     private static RegistryObject<Item> registerDust(Dust dust)
     {

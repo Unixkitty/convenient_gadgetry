@@ -12,6 +12,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
+import javax.annotation.Nonnull;
+
 public class TrashcanScreen extends ContainerScreen<TrashcanContainer>
 {
     private static final ResourceLocation BACKGROUND_TEXTURE = HelperUtil.prefixResource(ConvenientGadgetry.MODID, "textures/gui/container/trashcan.png");
@@ -39,10 +41,8 @@ public class TrashcanScreen extends ContainerScreen<TrashcanContainer>
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY)
+    protected void drawGuiContainerForegroundLayer(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY)
     {
-//        super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
-
         String s = I18n.format(ModBlocks.TRASHCAN.get().getTranslationKey());
         this.font.drawString(matrixStack, s, (float) (this.xSize / 2 - this.font.getStringWidth(s) / 2), 6.0F, 0x404040);
         this.font.drawString(matrixStack, I18n.format("container.inventory"), 8.0F, (float) (this.ySize - 96 + 2), 0x404040);

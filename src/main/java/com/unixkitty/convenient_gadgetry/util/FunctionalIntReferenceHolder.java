@@ -1,4 +1,4 @@
-package com.unixkitty.convenient_gadgetry.container;
+package com.unixkitty.convenient_gadgetry.util;
 
 import net.minecraft.util.IntReferenceHolder;
 

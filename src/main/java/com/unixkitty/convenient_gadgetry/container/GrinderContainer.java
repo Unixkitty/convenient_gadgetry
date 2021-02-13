@@ -3,11 +3,10 @@ package com.unixkitty.convenient_gadgetry.container;
 import com.unixkitty.convenient_gadgetry.block.tileentity.TileEntityGrinder;
 import com.unixkitty.convenient_gadgetry.init.ModBlocks;
 import com.unixkitty.convenient_gadgetry.init.ModContainerTypes;
+import com.unixkitty.convenient_gadgetry.util.FunctionalIntReferenceHolder;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
@@ -18,7 +17,7 @@ import java.util.Objects;
 
 import static com.unixkitty.convenient_gadgetry.client.gui.ModGuiHandler.*;
 
-public class GrinderContainer extends Container
+public class GrinderContainer extends AbstractModContainer
 {
     private final IWorldPosCallable canInteractWithCallable;
 
@@ -118,55 +117,6 @@ public class GrinderContainer extends Container
         }
 
         throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
-    }
-
-    /**
-     * Generic & dynamic version of {@link Container#transferStackInSlot(PlayerEntity, int)}.
-     * Handle when the stack in slot {@code index} is shift-clicked.
-     * Normally this moves the stack between the player inventory and the other inventory(s).
-     *
-     * @param player the player passed in
-     * @param index  the index passed in
-     * @return the {@link ItemStack}
-     */
-    @Nonnull
-    @Override
-    public ItemStack transferStackInSlot(final PlayerEntity player, final int index)
-    {
-        ItemStack returnStack = ItemStack.EMPTY;
-        final Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack())
-        {
-            final ItemStack slotStack = slot.getStack();
-            returnStack = slotStack.copy();
-
-            final int containerSlots = this.inventorySlots.size() - player.inventory.mainInventory.size();
-            if (index < containerSlots)
-            {
-                if (!mergeItemStack(slotStack, containerSlots, this.inventorySlots.size(), true))
-                {
-                    return ItemStack.EMPTY;
-                }
-            }
-            else if (!mergeItemStack(slotStack, 0, containerSlots, false))
-            {
-                return ItemStack.EMPTY;
-            }
-            if (slotStack.getCount() == 0)
-            {
-                slot.putStack(ItemStack.EMPTY);
-            }
-            else
-            {
-                slot.onSlotChanged();
-            }
-            if (slotStack.getCount() == returnStack.getCount())
-            {
-                return ItemStack.EMPTY;
-            }
-            slot.onTake(player, slotStack);
-        }
-        return returnStack;
     }
 
     @Override
