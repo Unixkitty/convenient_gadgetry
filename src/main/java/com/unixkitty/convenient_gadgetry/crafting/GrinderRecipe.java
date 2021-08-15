@@ -61,12 +61,12 @@ public class GrinderRecipe implements IGrinderRecipe
     @Override
     public boolean matches(IInventory inv, World worldIn)
     {
-        return this.input.test(inv.getStackInSlot(TileEntityGrinder.INPUT_SLOT));
+        return this.input.test(inv.getItem(TileEntityGrinder.INPUT_SLOT));
     }
 
     @Deprecated
     @Override
-    public ItemStack getRecipeOutput()
+    public ItemStack getResultItem()
     {
         return !outputs.isEmpty() ? outputs.keySet().iterator().next() : ItemStack.EMPTY;
     }
@@ -84,7 +84,7 @@ public class GrinderRecipe implements IGrinderRecipe
     }
 
     @Override
-    public ItemStack getIcon()
+    public ItemStack getToastSymbol()
     {
         return new ItemStack(ModBlocks.GRINDER.get());
     }
@@ -100,12 +100,12 @@ public class GrinderRecipe implements IGrinderRecipe
         //TODO add a way to read forge tags from outputs for dynamic recipe building
 
         @Override
-        public GrinderRecipe read(ResourceLocation recipeId, JsonObject json)
+        public GrinderRecipe fromJson(ResourceLocation recipeId, JsonObject json)
         {
             try
             {
-                final Ingredient input = Ingredient.deserialize(json.get("input"));
-                final short cranks_required = (short) JSONUtils.getInt(json, "cranks_required", IGrinderRecipe.CRANKS_DEFAULT);
+                final Ingredient input = Ingredient.fromJson(json.get("input"));
+                final short cranks_required = (short) JSONUtils.getAsInt(json, "cranks_required", IGrinderRecipe.CRANKS_DEFAULT);
 
                 final GrinderRecipe recipe = new GrinderRecipe(recipeId, input, cranks_required);
 
@@ -115,9 +115,9 @@ public class GrinderRecipe implements IGrinderRecipe
                 {
                     JsonObject object = element.getAsJsonObject();
 
-                    ItemStack output = CraftingHelper.getItemStack(JSONUtils.getJsonObject(object, "output"), true);
+                    ItemStack output = CraftingHelper.getItemStack(JSONUtils.getAsJsonObject(object, "output"), true);
 
-                    float chance = JSONUtils.getFloat(object, "chance", 1);
+                    float chance = JSONUtils.getAsFloat(object, "chance", 1);
 
                     recipe.outputs.put(output, chance);
                 }
@@ -134,9 +134,9 @@ public class GrinderRecipe implements IGrinderRecipe
 
         @Nullable
         @Override
-        public GrinderRecipe read(ResourceLocation recipeId, PacketBuffer buffer)
+        public GrinderRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer)
         {
-            final Ingredient input = Ingredient.read(buffer);
+            final Ingredient input = Ingredient.fromNetwork(buffer);
             final short cranks_required = buffer.readShort();
 
             final GrinderRecipe recipe = new GrinderRecipe(recipeId, input, cranks_required);
@@ -145,7 +145,7 @@ public class GrinderRecipe implements IGrinderRecipe
 
             for (int i = 0; i < outputCount; i++)
             {
-                ItemStack output = buffer.readItemStack();
+                ItemStack output = buffer.readItem();
 
                 float chance = buffer.readFloat();
 
@@ -156,16 +156,16 @@ public class GrinderRecipe implements IGrinderRecipe
         }
 
         @Override
-        public void write(PacketBuffer buffer, GrinderRecipe recipe)
+        public void toNetwork(PacketBuffer buffer, GrinderRecipe recipe)
         {
-            recipe.input.write(buffer);
+            recipe.input.toNetwork(buffer);
             buffer.writeShort(recipe.cranks_required);
 
             buffer.writeByte(recipe.outputs.size());
 
             recipe.outputs.forEach((output, chance) ->
             {
-                buffer.writeItemStack(output);
+                buffer.writeItem(output);
                 buffer.writeFloat(chance);
             });
         }

@@ -55,7 +55,7 @@ public enum Dust implements IItemProvider
 
         if (burnTime == 0)
         {
-            this.item = new Item(new Item.Properties().group(ModItemGroups.DUSTS));
+            this.item = new Item(new Item.Properties().tab(ModItemGroups.DUSTS));
         }
         else
         {
@@ -74,7 +74,7 @@ public enum Dust implements IItemProvider
                     break;
             }
 
-            this.item = new Item(new Item.Properties().group(ModItemGroups.DUSTS))
+            this.item = new Item(new Item.Properties().tab(ModItemGroups.DUSTS))
             {
                 @Override
                 public int getBurnTime(ItemStack itemStack)

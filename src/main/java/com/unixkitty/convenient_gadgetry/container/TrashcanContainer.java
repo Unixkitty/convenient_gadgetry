@@ -30,7 +30,7 @@ public class TrashcanContainer extends AbstractModContainer
     public TrashcanContainer(final int windowId, final PlayerInventory playerInventory, final TileEntityTrashcan tileEntity)
     {
         super(ModContainerTypes.TRASHCAN.get(), windowId);
-        this.canInteractWithCallable = IWorldPosCallable.of(Objects.requireNonNull(tileEntity.getWorld()), tileEntity.getPos());
+        this.canInteractWithCallable = IWorldPosCallable.create(Objects.requireNonNull(tileEntity.getLevel()), tileEntity.getBlockPos());
 
         final int PEDESTAL_SLOT_X = 80;
         final int PEDESTAL_SLOT_Y = 35;
@@ -67,7 +67,7 @@ public class TrashcanContainer extends AbstractModContainer
     {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
-        final TileEntity tileAtPos = playerInventory.player.world.getTileEntity(data.readBlockPos());
+        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
 
         if (tileAtPos instanceof TileEntityTrashcan)
         {
@@ -78,8 +78,8 @@ public class TrashcanContainer extends AbstractModContainer
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull final PlayerEntity player)
+    public boolean stillValid(@Nonnull final PlayerEntity player)
     {
-        return isWithinUsableDistance(canInteractWithCallable, player, Objects.requireNonNull(ModBlocks.TRASHCAN).get());
+        return stillValid(canInteractWithCallable, player, Objects.requireNonNull(ModBlocks.TRASHCAN).get());
     }
 }

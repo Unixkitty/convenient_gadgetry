@@ -21,21 +21,21 @@ public class ModItemTags extends ItemTagsProvider
     }
 
     @Override
-    protected void registerTags()
+    protected void addTags()
     {
         Arrays.stream(Dust.values()).forEach(dust ->
         {
-            getOrCreateBuilder(Tags.Items.DUSTS).addTag(dust.asTag());
-            getOrCreateBuilder(dust.asTag()).add(dust.asItem());
+            tag(Tags.Items.DUSTS).addTag(dust.asTag());
+            tag(dust.asTag()).add(dust.asItem());
         });
 
         Arrays.stream(Ingot.values()).forEach(ingot ->
         {
-            getOrCreateBuilder(Tags.Items.INGOTS).addTag(ingot.asTag());
-            getOrCreateBuilder(ingot.asTag()).add(ingot.asItem());
+            tag(Tags.Items.INGOTS).addTag(ingot.asTag());
+            tag(ingot.asTag()).add(ingot.asItem());
         });
 
-        getOrCreateBuilder(ModTags.Items.MAGNET_BLACKLIST).add(Items.AIR);
+        tag(ModTags.Items.MAGNET_BLACKLIST).add(Items.AIR);
     }
 
     @Override

@@ -80,11 +80,11 @@ public final class GrinderRecipeBuilder
         }
 
         @Override
-        public void serialize(JsonObject json)
+        public void serializeRecipeData(JsonObject json)
         {
             Preconditions.checkArgument(outputs.size() <= 3);
 
-            json.add("input", this.input.serialize());
+            json.add("input", this.input.toJson());
             json.addProperty("cranks_required", cranks_required);
 
             JsonArray outputsArray = new JsonArray();
@@ -102,27 +102,27 @@ public final class GrinderRecipeBuilder
         }
 
         @Override
-        public ResourceLocation getID()
+        public ResourceLocation getId()
         {
             return this.resourceLocation;
         }
 
         @Override
-        public IRecipeSerializer<?> getSerializer()
+        public IRecipeSerializer<?> getType()
         {
             return ModRecipeTypes.GRINDER_SERIALIZER;
         }
 
         @Nullable
         @Override
-        public JsonObject getAdvancementJson()
+        public JsonObject serializeAdvancement()
         {
             return null;
         }
 
         @Nullable
         @Override
-        public ResourceLocation getAdvancementID()
+        public ResourceLocation getAdvancementId()
         {
             return null;
         }

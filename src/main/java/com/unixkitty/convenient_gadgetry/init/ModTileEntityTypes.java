@@ -16,14 +16,14 @@ public final class ModTileEntityTypes
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, ConvenientGadgetry.MODID);
 
     public static final RegistryObject<TileEntityType<TileEntityGrinder>> GRINDER = TILE_ENTITY_TYPES.register("grinder", () ->
-            TileEntityType.Builder.create(TileEntityGrinder::new, Objects.requireNonNull(ModBlocks.GRINDER).get()).build(null)
+            TileEntityType.Builder.of(TileEntityGrinder::new, Objects.requireNonNull(ModBlocks.GRINDER).get()).build(null)
     );
 
     public static final RegistryObject<TileEntityType<TileEntityCrank>> CRANK = TILE_ENTITY_TYPES.register("crank", () ->
-            TileEntityType.Builder.create(TileEntityCrank::new, Objects.requireNonNull(ModBlocks.CRANK).get()).build(null)
+            TileEntityType.Builder.of(TileEntityCrank::new, Objects.requireNonNull(ModBlocks.CRANK).get()).build(null)
     );
 
     public static final RegistryObject<TileEntityType<TileEntityTrashcan>> TRASHCAN = TILE_ENTITY_TYPES.register("trashcan", () ->
-            TileEntityType.Builder.create(TileEntityTrashcan::new, Objects.requireNonNull(ModBlocks.TRASHCAN).get()).build(null)
+            TileEntityType.Builder.of(TileEntityTrashcan::new, Objects.requireNonNull(ModBlocks.TRASHCAN).get()).build(null)
     );
 }

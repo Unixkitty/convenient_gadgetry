@@ -45,7 +45,7 @@ public class JeiPlugin implements IModPlugin
 
     private static List<IRecipe<?>> getRecipesOfType(IRecipeType<?> recipeType)
     {
-        return Minecraft.getInstance().world.getRecipeManager().getRecipes().stream()
+        return Minecraft.getInstance().level.getRecipeManager().getRecipes().stream()
                 .filter(r -> r.getType() == recipeType)
                 .collect(Collectors.toList());
     }

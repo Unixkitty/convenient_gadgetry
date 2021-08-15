@@ -46,7 +46,7 @@ public class TileEntityTrashcan extends TileEntityMod implements INamedContainer
     @Override
     public ITextComponent getDisplayName()
     {
-        return new TranslationTextComponent(Objects.requireNonNull(ModBlocks.TRASHCAN).get().getTranslationKey());
+        return new TranslationTextComponent(Objects.requireNonNull(ModBlocks.TRASHCAN).get().getDescriptionId());
     }
 
     @Nullable
@@ -67,9 +67,9 @@ public class TileEntityTrashcan extends TileEntityMod implements INamedContainer
      * Invalidates our tile entity
      */
     @Override
-    public void remove()
+    public void setRemoved()
     {
-        super.remove();
+        super.setRemoved();
         // We need to invalidate our capability references so that any cached references (by other mods) don't
         // continue to reference our capabilities and try to use them and/or prevent them from being garbage collected
         inventoryCapabilityExternal.invalidate();

@@ -46,7 +46,7 @@ public class MessageGhostSlot implements IMessage
         if (!isMessageValid) return;
 
         buffer.writeInt(this.slotIndex);
-        buffer.writeItemStack(this.itemStack);
+        buffer.writeItem(this.itemStack);
     }
 
     public static MessageGhostSlot decode(PacketBuffer buffer)
@@ -56,7 +56,7 @@ public class MessageGhostSlot implements IMessage
         try
         {
             message.slotIndex = buffer.readInt();
-            message.itemStack = buffer.readItemStack();
+            message.itemStack = buffer.readItem();
         }
         catch (IllegalArgumentException | IndexOutOfBoundsException e)
         {

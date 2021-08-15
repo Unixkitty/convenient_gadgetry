@@ -26,8 +26,8 @@ public class DevNullScreen extends ContainerScreen<DevNullContainer>
     {
         super(screenContainer, inv, titleIn);
 
-        this.ySize = 114 + 6 * 18;
-        this.playerInventoryTitleY = this.ySize - 94;
+        this.imageHeight = 114 + 6 * 18;
+        this.inventoryLabelY = this.imageHeight - 94;
     }
 
     @Override
@@ -35,29 +35,29 @@ public class DevNullScreen extends ContainerScreen<DevNullContainer>
     {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+        this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY)
+    protected void renderBg(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY)
     {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        getMinecraft().getTextureManager().bindTexture(BACKGROUND_TEXTURE);
+        getMinecraft().getTextureManager().bind(BACKGROUND_TEXTURE);
 
         /*int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;
 
         this.blit(matrixStack, x, y, 0, 0, this.xSize, 6 * 18 + 17);
         this.blit(matrixStack, x, y + 6 * 18 + 17, 0, 125, this.xSize, 96);*/
-        this.blit(matrixStack, (width - xSize) / 2, (height - ySize) / 2, 0, 0, xSize, ySize);
+        this.blit(matrixStack, (width - imageWidth) / 2, (height - imageHeight) / 2, 0, 0, imageWidth, imageHeight);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY)
+    protected void renderLabels(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY)
     {
-        String s = I18n.format("text." + ConvenientGadgetry.MODID + ".dev_null_gui");
-        this.font.drawString(matrixStack, s, (float) (this.xSize / 2 - this.font.getStringWidth(s) / 2), 6.0F, 0x404040);
-        this.font.drawString(matrixStack, I18n.format("container.inventory"), 8.0F, (float) (this.ySize - 96 + 2), 0x404040);
+        String s = I18n.get("text." + ConvenientGadgetry.MODID + ".dev_null_gui");
+        this.font.draw(matrixStack, s, (float) (this.imageWidth / 2 - this.font.width(s) / 2), 6.0F, 0x404040);
+        this.font.draw(matrixStack, I18n.get("container.inventory"), 8.0F, (float) (this.imageHeight - 96 + 2), 0x404040);
     }
 
     //Code from com.direwolf20.mininggadgets.client.screens.FilterScreen
@@ -70,11 +70,11 @@ public class DevNullScreen extends ContainerScreen<DevNullContainer>
         }
 
         // By splitting the stack we can get air easily :) perfect removal basically
-        ItemStack stack = getMinecraft().player.inventory.getItemStack();
-        stack = stack.copy().split(hoveredSlot.getSlotStackLimit()); // Limit to slot limit
-        hoveredSlot.putStack(stack); // Temporarily update the client for continuity purposes
+        ItemStack stack = getMinecraft().player.inventory.getCarried();
+        stack = stack.copy().split(hoveredSlot.getMaxStackSize()); // Limit to slot limit
+        hoveredSlot.set(stack); // Temporarily update the client for continuity purposes
 
-        MessageHandler.INSTANCE.sendToServer(new MessageGhostSlot(hoveredSlot.slotNumber, stack));
+        MessageHandler.INSTANCE.sendToServer(new MessageGhostSlot(hoveredSlot.index, stack));
         return true;
     }
 

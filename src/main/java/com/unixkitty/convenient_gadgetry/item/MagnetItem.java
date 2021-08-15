@@ -24,6 +24,8 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 public class MagnetItem extends Item
 {
     public static ItemStack TEMPLATE_STACK = ItemStack.EMPTY;
@@ -35,7 +37,7 @@ public class MagnetItem extends Item
 
     private static final int range = 8;
 
-    private static final Field PICKUP_DELAY_FIELD = ObfuscationReflectionHelper.findField(ItemEntity.class, "field_145804_b");
+    private static final Field PICKUP_DELAY_FIELD = ObfuscationReflectionHelper.findField(ItemEntity.class, "pickupDelay");
 
     public MagnetItem(Properties properties)
     {
@@ -47,28 +49,28 @@ public class MagnetItem extends Item
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag)
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag)
     {
-        super.addInformation(stack, world, tooltip, flag);
+        super.appendHoverText(stack, world, tooltip, flag);
 
-        tooltip.add(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet.info1", isEnabled(stack)).mergeStyle(TextFormatting.DARK_AQUA));
-        tooltip.add(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet.info2", isInverted(stack)).mergeStyle(TextFormatting.DARK_AQUA));
+        tooltip.add(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet.info1", isEnabled(stack)).withStyle(TextFormatting.DARK_AQUA));
+        tooltip.add(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet.info2", isInverted(stack)).withStyle(TextFormatting.DARK_AQUA));
     }
 
     @Override
-    public boolean hasEffect(ItemStack stack)
+    public boolean isFoil(ItemStack stack)
     {
         return isEnabled(stack);
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
     {
-        if (!world.isRemote)
+        if (!world.isClientSide)
         {
-            ItemStack stack = player.getHeldItem(hand);
+            ItemStack stack = player.getItemInHand(hand);
 
-            if (player.isSneaking())
+            if (player.isShiftKeyDown())
             {
                 toggleInverted(stack);
 
@@ -82,7 +84,7 @@ public class MagnetItem extends Item
             }
         }
 
-        return super.onItemRightClick(world, player, hand);
+        return super.use(world, player, hand);
     }
 
     @Override
@@ -103,13 +105,13 @@ public class MagnetItem extends Item
 
             if (cooldown <= 0)
             {
-                if (isEnabled(stack) && entity.isSneaking() == isInverted(stack))
+                if (isEnabled(stack) && entity.isShiftKeyDown() == isInverted(stack))
                 {
-                    double x = entity.getPosX();
-                    double y = entity.getPosY() + 0.75;
-                    double z = entity.getPosZ();
+                    double x = entity.getX();
+                    double y = entity.getY() + 0.75;
+                    double z = entity.getZ();
 
-                    List<ItemEntity> items = entity.world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(x - range, y - range, z - range, x + range, y + range, z + range));
+                    List<ItemEntity> items = entity.level.getEntitiesOfClass(ItemEntity.class, new AxisAlignedBB(x - range, y - range, z - range, x + range, y + range, z + range));
                     int pulled = 0;
 
                     for (ItemEntity item : items)
@@ -199,9 +201,9 @@ public class MagnetItem extends Item
 
     public static void handleKeyPacket(ServerPlayerEntity player, int slotIndex)
     {
-        if (player.inventory.hasItemStack(TEMPLATE_STACK))
+        if (player.inventory.contains(TEMPLATE_STACK))
         {
-            ItemStack stack = player.inventory.getStackInSlot(slotIndex);
+            ItemStack stack = player.inventory.getItem(slotIndex);
 
             toggle(stack);
 
@@ -211,6 +213,6 @@ public class MagnetItem extends Item
 
     private static void informPlayer(final PlayerEntity player, final ItemStack stack, String tag)
     {
-        player.sendMessage(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet_" + tag, isEnabled(stack)), player.getUniqueID());
+        player.sendMessage(new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".magnet_" + tag, isEnabled(stack)), player.getUUID());
     }
 }

@@ -35,11 +35,11 @@ import java.util.stream.Stream;
 
 public class CrankBlock extends Block
 {
-    private static final VoxelShape SHAPE_SHAFT = Block.makeCuboidShape(7, 0, 7, 9, 8, 9);
-    private static final VoxelShape SHAPE_N = Block.makeCuboidShape(7, 8, 9, 9, 10, 0);
-    private static final VoxelShape SHAPE_E = Block.makeCuboidShape(7, 8, 9, 16, 10, 7);
-    private static final VoxelShape SHAPE_S = Block.makeCuboidShape(7, 8, 7, 9, 10, 16);
-    private static final VoxelShape SHAPE_W = Block.makeCuboidShape(0, 8, 7, 9, 10, 9);
+    private static final VoxelShape SHAPE_SHAFT = Block.box(7, 0, 7, 9, 8, 9);
+    private static final VoxelShape SHAPE_N = Block.box(7, 8, 9, 9, 10, 0);
+    private static final VoxelShape SHAPE_E = Block.box(7, 8, 9, 16, 10, 7);
+    private static final VoxelShape SHAPE_S = Block.box(7, 8, 7, 9, 10, 16);
+    private static final VoxelShape SHAPE_W = Block.box(0, 8, 7, 9, 10, 9);
 
     public static final DirectionProperty FACING_PROPERTY = BlockStateProperties.HORIZONTAL_FACING;
 
@@ -47,32 +47,32 @@ public class CrankBlock extends Block
             SHAPE_SHAFT,
             SHAPE_N
     )
-            .reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
+            .reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
     public static final VoxelShape SHAPE_EAST = Stream.of(
             SHAPE_SHAFT,
             SHAPE_E
     )
-            .reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
+            .reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
     public static final VoxelShape SHAPE_SOUTH = Stream.of(
             SHAPE_SHAFT,
             SHAPE_S
     )
-            .reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
+            .reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
     public static final VoxelShape SHAPE_WEST = Stream.of(
             SHAPE_SHAFT,
             SHAPE_W
     )
-            .reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
+            .reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
 
     public CrankBlock()
     {
-        super(Block.Properties.from(Blocks.OAK_PLANKS).setAllowsSpawn(ModBlocks::neverAllowSpawn));
+        super(Block.Properties.copy(Blocks.OAK_PLANKS).isValidSpawn(ModBlocks::neverAllowSpawn));
 
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING_PROPERTY, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING_PROPERTY, Direction.NORTH));
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state)
+    public BlockRenderType getRenderShape(BlockState state)
     {
         return BlockRenderType.MODEL;
     }
@@ -86,7 +86,7 @@ public class CrankBlock extends Block
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
     {
-        switch (state.get(FACING_PROPERTY))
+        switch (state.getValue(FACING_PROPERTY))
         {
             case EAST:
                 return SHAPE_EAST;
@@ -102,17 +102,17 @@ public class CrankBlock extends Block
     @Override
     public BlockState rotate(BlockState state, Rotation rot)
     {
-        return state.with(FACING_PROPERTY, rot.rotate(state.get(FACING_PROPERTY)));
+        return state.setValue(FACING_PROPERTY, rot.rotate(state.getValue(FACING_PROPERTY)));
     }
 
     @Override
     public BlockState mirror(BlockState state, Mirror mirrorIn)
     {
-        return state.rotate(mirrorIn.toRotation(state.get(FACING_PROPERTY)));
+        return state.rotate(mirrorIn.getRotation(state.getValue(FACING_PROPERTY)));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(FACING_PROPERTY);
     }
@@ -131,9 +131,9 @@ public class CrankBlock extends Block
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
     {
-        if (!world.isRemote)
+        if (!world.isClientSide)
         {
             if (player == null || player instanceof FakePlayer)
             {
@@ -142,9 +142,9 @@ public class CrankBlock extends Block
                 return ActionResultType.FAIL;
             }
 
-            if (player.getHeldItem(hand).isEmpty() && !player.isSneaking())
+            if (player.getItemInHand(hand).isEmpty() && !player.isShiftKeyDown())
             {
-                final TileEntity tileEntity = world.getTileEntity(pos);
+                final TileEntity tileEntity = world.getBlockEntity(pos);
 
                 if (tileEntity instanceof TileEntityCrank)
                 {
@@ -163,25 +163,25 @@ public class CrankBlock extends Block
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
     {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
 
-        tooltip.add(new TranslationTextComponent("text.convenient_gadgetry.crank.info").mergeStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("text.convenient_gadgetry.crank.info").withStyle(TextFormatting.GRAY));
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos)
+    public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos)
     {
-        return world.getBlockState(pos.down()).getBlock() == ModBlocks.GRINDER.get();
+        return world.getBlockState(pos.below()).getBlock() == ModBlocks.GRINDER.get();
     }
 
     @Override
     public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving)
     {
-        if (!world.isRemote)
+        if (!world.isClientSide)
         {
-            if (!state.isValidPosition(world, pos))
+            if (!state.canSurvive(world, pos))
             {
                 this.dropCrank(world, pos);
             }
@@ -191,11 +191,11 @@ public class CrankBlock extends Block
     public void dropCrank(World world, BlockPos pos)
     {
         world.destroyBlock(pos, true);
-        world.notifyBlockUpdate(pos, this.getDefaultState(), world.getBlockState(pos), 3);
+        world.sendBlockUpdated(pos, this.defaultBlockState(), world.getBlockState(pos), 3);
     }
 
     private void rotate(World world, BlockState state, BlockPos pos)
     {
-        world.setBlockState(pos, state.with(FACING_PROPERTY, state.get(FACING_PROPERTY).rotateY()), 3);
+        world.setBlock(pos, state.setValue(FACING_PROPERTY, state.getValue(FACING_PROPERTY).getClockWise()), 3);
     }
 }

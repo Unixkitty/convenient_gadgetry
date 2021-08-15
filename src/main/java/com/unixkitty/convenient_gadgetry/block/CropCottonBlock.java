@@ -26,21 +26,21 @@ import java.util.Random;
 
 public class CropCottonBlock extends CropsBlock
 {
-    public static final IntegerProperty COTTON_AGE = BlockStateProperties.AGE_0_5;
+    public static final IntegerProperty COTTON_AGE = BlockStateProperties.AGE_5;
     private static final VoxelShape[] SHAPE = new VoxelShape[]{
-            Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 5.0D, 16.0D),
-            Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D),
-            Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 11.0D, 16.0D),
-            Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 15.0D, 16.0D),
-            Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 15.0D, 16.0D),
-            Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 15.0D, 16.0D)
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 5.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 11.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 15.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 15.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 15.0D, 16.0D)
     };
 
     private final LazyValue<IItemProvider> seeds;
 
     public CropCottonBlock()
     {
-        super(Block.Properties.from(Blocks.BEETROOTS));
+        super(Block.Properties.copy(Blocks.BEETROOTS));
 
         this.seeds = new LazyValue<>(() -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(ConvenientGadgetry.MODID, "cotton")));
     }
@@ -51,13 +51,13 @@ public class CropCottonBlock extends CropsBlock
     }
 
     @Override
-    public IItemProvider getSeedsItem()
+    public IItemProvider getBaseSeedId()
     {
-        return seeds.getValue();
+        return seeds.get();
     }
 
     @Override
-    public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state)
+    public ItemStack getCloneItemStack(IBlockReader worldIn, BlockPos pos, BlockState state)
     {
         return new ItemStack(this::getCropItem);
     }
@@ -88,13 +88,13 @@ public class CropCottonBlock extends CropsBlock
         return super.getBonemealAgeIncrease(worldIn) / 3;
     }
 
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(COTTON_AGE);
     }
 
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
     {
-        return SHAPE[state.get(this.getAgeProperty())];
+        return SHAPE[state.getValue(this.getAgeProperty())];
     }
 }

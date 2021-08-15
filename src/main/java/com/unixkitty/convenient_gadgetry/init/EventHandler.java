@@ -32,7 +32,7 @@ public final class EventHandler
         @SubscribeEvent
         public void onPlayerItemToss(final ItemTossEvent event)
         {
-            if (event.getPlayer().isServerWorld() && event.getPlayer().inventory.hasItemStack(MagnetItem.TEMPLATE_STACK))
+            if (event.getPlayer().isEffectiveAi() && event.getPlayer().inventory.contains(MagnetItem.TEMPLATE_STACK))
             {
                 ItemStack magnet = ItemUtil.getStackIfPlayerHas(MagnetItem.TEMPLATE_STACK, event.getPlayer());
 
@@ -46,15 +46,15 @@ public final class EventHandler
         @SubscribeEvent
         public void onItemPickup(final EntityItemPickupEvent event)
         {
-            if (event.getPlayer().isServerWorld() && ItemUtil.getStackIfPlayerHas(DevNullItem.TEMPLATE_STACK, event.getPlayer()) != null)
+            if (event.getPlayer().isEffectiveAi() && ItemUtil.getStackIfPlayerHas(DevNullItem.TEMPLATE_STACK, event.getPlayer()) != null)
             {
                 if (event.getItem().getItem().isEmpty()) return;
 
                 ItemStack pickedUpStack = event.getItem().getItem();
 
-                for (int i = 0; i < event.getPlayer().inventory.getSizeInventory(); i++)
+                for (int i = 0; i < event.getPlayer().inventory.getContainerSize(); i++)
                 {
-                    final ItemStack itemStack = event.getPlayer().inventory.getStackInSlot(i);
+                    final ItemStack itemStack = event.getPlayer().inventory.getItem(i);
 
                     if (itemStack.getItem() == DevNullItem.TEMPLATE_STACK.getItem())
                     {
@@ -64,7 +64,7 @@ public final class EventHandler
                         {
                             for (ItemStack filter : filters)
                             {
-                                if (pickedUpStack.isItemEqualIgnoreDurability(filter))
+                                if (pickedUpStack.sameItemStackIgnoreDurability(filter))
                                 {
                                     //Begone, trash!
                                     pickedUpStack.setCount(0);

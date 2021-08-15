@@ -54,7 +54,7 @@ public final class ClientEvents
             ScreenManager.registerFactory(ModContainerTypes.TRASHCAN.get(), TrashcanScreen::new);
         });*/
 
-        RenderTypeLookup.setRenderLayer(ModBlocks.COTTON.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.COTTON.get(), RenderType.cutout());
     }
 
     @SubscribeEvent
@@ -64,9 +64,9 @@ public final class ClientEvents
         // ScreenManager.registerFactory is not safe to call during parallel mod loading so we queue it to run later
         event.enqueueWork(() ->
         {
-            ScreenManager.registerFactory(ModContainerTypes.GRINDER.get(), GrinderScreen::new);
-            ScreenManager.registerFactory(ModContainerTypes.TRASHCAN.get(), TrashcanScreen::new);
-            ScreenManager.registerFactory(ModContainerTypes.DEV_NULL.get(), DevNullScreen::new);
+            ScreenManager.register(ModContainerTypes.GRINDER.get(), GrinderScreen::new);
+            ScreenManager.register(ModContainerTypes.TRASHCAN.get(), TrashcanScreen::new);
+            ScreenManager.register(ModContainerTypes.DEV_NULL.get(), DevNullScreen::new);
         });
     }
 
@@ -96,9 +96,9 @@ public final class ClientEvents
             }
 
             if (
-                    (toggleMagnet.isPressed() || keyQueued) &&
-                            Minecraft.getInstance().isGameFocused() &&
-                            !Minecraft.getInstance().isGamePaused() &&
+                    (toggleMagnet.consumeClick() || keyQueued) &&
+                            Minecraft.getInstance().isWindowActive() &&
+                            !Minecraft.getInstance().isPaused() &&
                             Minecraft.getInstance().player != null
             )
             {

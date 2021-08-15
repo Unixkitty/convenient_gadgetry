@@ -38,7 +38,7 @@ public class DynamicTieredArmorProperties extends DynamicTierProperties implemen
         this.floorBump = floorBump;
 
         this.toughness = getTierStrength(tierIndex, tiersTotal, FLOOR_TIER.getToughness(), this.CEILING_TIER.getToughness(), floorBump);
-        this.enchantability = calcEnchantability(tierIndex, tiersTotal, floorTier.getEnchantability(), ceilingTier.getEnchantability(), floorBump, enchantability);
+        this.enchantability = calcEnchantability(tierIndex, tiersTotal, floorTier.getEnchantmentValue(), ceilingTier.getEnchantmentValue(), floorBump, enchantability);
 
         this.equipSound = equipSound;
     }
@@ -46,33 +46,33 @@ public class DynamicTieredArmorProperties extends DynamicTierProperties implemen
     /* Interface methods begin */
 
     @Override
-    public int getDurability(EquipmentSlotType slot)
+    public int getDurabilityForSlot(EquipmentSlotType slot)
     {
-        return (int) getTierStrength(this.tierIndex, this.tiersTotal, this.FLOOR_TIER.getDurability(slot), this.CEILING_TIER.getDurability(slot), this.floorBump);
+        return (int) getTierStrength(this.tierIndex, this.tiersTotal, this.FLOOR_TIER.getDurabilityForSlot(slot), this.CEILING_TIER.getDurabilityForSlot(slot), this.floorBump);
     }
 
     @Override
-    public int getDamageReductionAmount(EquipmentSlotType slot)
+    public int getDefenseForSlot(EquipmentSlotType slot)
     {
-        return (int) getTierStrength(this.tierIndex, this.tiersTotal, this.FLOOR_TIER.getDamageReductionAmount(slot), this.CEILING_TIER.getDamageReductionAmount(slot), this.floorBump);
+        return (int) getTierStrength(this.tierIndex, this.tiersTotal, this.FLOOR_TIER.getDefenseForSlot(slot), this.CEILING_TIER.getDefenseForSlot(slot), this.floorBump);
     }
 
     @Override
-    public int getEnchantability()
+    public int getEnchantmentValue()
     {
         return this.enchantability;
     }
 
     @Override
-    public SoundEvent getSoundEvent()
+    public SoundEvent getEquipSound()
     {
         return this.equipSound;
     }
 
     @Override
-    public Ingredient getRepairMaterial()
+    public Ingredient getRepairIngredient()
     {
-        return this.repairItem.getValue();
+        return this.repairItem.get();
     }
 
     @Override

@@ -34,13 +34,13 @@ public interface IGrinderRecipe extends IRecipe<IInventory>
 
     @Deprecated
     @Override
-    default ItemStack getCraftingResult(IInventory inv)
+    default ItemStack assemble(IInventory inv)
     {
         return ItemStack.EMPTY;
     }
 
     @Override
-    default boolean canFit(int width, int height)
+    default boolean canCraftInDimensions(int width, int height)
     {
         return true;
     }

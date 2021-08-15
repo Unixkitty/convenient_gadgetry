@@ -28,7 +28,7 @@ public enum Ingot implements IItemProvider
         this.name = name;
 
         this.itemTag = TagHelper.forgeItemTag("ingots", name);
-        this.item = new Item(new Item.Properties().group(ModItemGroups.DUSTS));
+        this.item = new Item(new Item.Properties().tab(ModItemGroups.DUSTS));
     }
 
     public ITag.INamedTag<Item> asTag()

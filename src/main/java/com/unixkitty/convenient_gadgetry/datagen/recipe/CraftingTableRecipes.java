@@ -26,99 +26,99 @@ public class CraftingTableRecipes extends CraftingTableRecipeProvider
     }
 
     @Override
-    protected void registerRecipes(Consumer<IFinishedRecipe> consumer)
+    protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer)
     {
         //Grinder
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.GRINDER.get())
-                .key('s', Blocks.SMOOTH_STONE_SLAB)
-                .key('i', Tags.Items.INGOTS_IRON)
-                .key('b', Blocks.SMOOTH_STONE)
-                .patternLine("iii")
-                .patternLine("isi")
-                .patternLine("bbb")
-                .addCriterion("has_item", hasItem(Tags.Items.INGOTS_IRON))
-                .build(consumer);
+        ShapedRecipeBuilder.shaped(ModBlocks.GRINDER.get())
+                .define('s', Blocks.SMOOTH_STONE_SLAB)
+                .define('i', Tags.Items.INGOTS_IRON)
+                .define('b', Blocks.SMOOTH_STONE)
+                .pattern("iii")
+                .pattern("isi")
+                .pattern("bbb")
+                .unlockedBy("has_item", has(Tags.Items.INGOTS_IRON))
+                .save(consumer);
 
         //Cotton
-        ShapelessRecipeBuilder.shapelessRecipe(((CropCottonBlock) ModBlocks.COTTON.get()).getSeedsItem(), 2)
-                .addIngredient(ModItems.CROP_COTTON.get())
-                .addCriterion("has_item", hasItem(ModItems.CROP_COTTON.get()))
-                .build(consumer, HelperUtil.prefixResource(ConvenientGadgetry.MODID, "cotton_seeds_from_cotton"));
-        ShapelessRecipeBuilder.shapelessRecipe(Items.STRING, 3)
-                .addIngredient(ModItems.CROP_COTTON.get())
-                .addIngredient(ModItems.CROP_COTTON.get())
-                .addIngredient(ModItems.CROP_COTTON.get())
-                .addCriterion("has_item", hasItem(ModItems.CROP_COTTON.get()))
-                .build(consumer, HelperUtil.prefixResource(ConvenientGadgetry.MODID, "string_from_cotton"));
+        ShapelessRecipeBuilder.shapeless(((CropCottonBlock) ModBlocks.COTTON.get()).getBaseSeedId(), 2)
+                .requires(ModItems.CROP_COTTON.get())
+                .unlockedBy("has_item", has(ModItems.CROP_COTTON.get()))
+                .save(consumer, HelperUtil.prefixResource(ConvenientGadgetry.MODID, "cotton_seeds_from_cotton"));
+        ShapelessRecipeBuilder.shapeless(Items.STRING, 3)
+                .requires(ModItems.CROP_COTTON.get())
+                .requires(ModItems.CROP_COTTON.get())
+                .requires(ModItems.CROP_COTTON.get())
+                .unlockedBy("has_item", has(ModItems.CROP_COTTON.get()))
+                .save(consumer, HelperUtil.prefixResource(ConvenientGadgetry.MODID, "string_from_cotton"));
 
         //Bucket helmet
-        ShapelessRecipeBuilder.shapelessRecipe(ModItems.BUCKET_HELMET.get())
-                .addIngredient(Items.BUCKET)
-                .addCriterion("has_item", hasItem(Items.BUCKET))
-                .build(consumer);
+        ShapelessRecipeBuilder.shapeless(ModItems.BUCKET_HELMET.get())
+                .requires(Items.BUCKET)
+                .unlockedBy("has_item", has(Items.BUCKET))
+                .save(consumer);
 
         //Bronze dust
-        ShapelessRecipeBuilder.shapelessRecipe(Dust.BRONZE.asItem(), 4)
-                .addIngredient(Dust.TIN.asTag())
-                .addIngredient(Dust.COPPER.asTag())
-                .addIngredient(Dust.COPPER.asTag())
-                .addIngredient(Dust.COPPER.asTag())
-                .addCriterion("has_tin_dust", hasItem(Dust.TIN.asTag()))
-                .addCriterion("has_copper_dust", hasItem(Dust.COPPER.asTag()))
-                .build(consumer);
+        ShapelessRecipeBuilder.shapeless(Dust.BRONZE.asItem(), 4)
+                .requires(Dust.TIN.asTag())
+                .requires(Dust.COPPER.asTag())
+                .requires(Dust.COPPER.asTag())
+                .requires(Dust.COPPER.asTag())
+                .unlockedBy("has_tin_dust", has(Dust.TIN.asTag()))
+                .unlockedBy("has_copper_dust", has(Dust.COPPER.asTag()))
+                .save(consumer);
 
         //Crank
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.CRANK.get())
-                .key('s', Tags.Items.RODS_WOODEN)
-                .patternLine("sss")
-                .patternLine("  s")
-                .patternLine("  s")
-                .addCriterion("has_item", hasItem(ModBlocks.GRINDER.get()))
-                .build(consumer);
+        ShapedRecipeBuilder.shaped(ModBlocks.CRANK.get())
+                .define('s', Tags.Items.RODS_WOODEN)
+                .pattern("sss")
+                .pattern("  s")
+                .pattern("  s")
+                .unlockedBy("has_item", has(ModBlocks.GRINDER.get()))
+                .save(consumer);
 
         //Trashcan
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.TRASHCAN.get())
-                .key('i', Tags.Items.INGOTS_IRON)
-                .key('t', Blocks.IRON_TRAPDOOR)
-                .patternLine(" t ")
-                .patternLine("i i")
-                .patternLine("iii")
-                .addCriterion("has_item", hasItem(Items.IRON_INGOT))
-                .build(consumer);
+        ShapedRecipeBuilder.shaped(ModBlocks.TRASHCAN.get())
+                .define('i', Tags.Items.INGOTS_IRON)
+                .define('t', Blocks.IRON_TRAPDOOR)
+                .pattern(" t ")
+                .pattern("i i")
+                .pattern("iii")
+                .unlockedBy("has_item", has(Items.IRON_INGOT))
+                .save(consumer);
 
         //Magnetic dust
-        ShapelessRecipeBuilder.shapelessRecipe(ModItems.DUST_MAGNETIC.get(), 4)
-                .addIngredient(Dust.IRON.asTag())
-                .addIngredient(Dust.IRON.asTag())
-                .addIngredient(Dust.GOLD.asTag())
-                .addIngredient(Tags.Items.DUSTS_REDSTONE)
-                .addCriterion("has_redstone_dust", hasItem(Tags.Items.DUSTS_REDSTONE))
-                .build(consumer);
+        ShapelessRecipeBuilder.shapeless(ModItems.DUST_MAGNETIC.get(), 4)
+                .requires(Dust.IRON.asTag())
+                .requires(Dust.IRON.asTag())
+                .requires(Dust.GOLD.asTag())
+                .requires(Tags.Items.DUSTS_REDSTONE)
+                .unlockedBy("has_redstone_dust", has(Tags.Items.DUSTS_REDSTONE))
+                .save(consumer);
 
         //Brass dust
-        ShapelessRecipeBuilder.shapelessRecipe(ModItems.DUST_BRASS.get(), 4)
-                .addIngredient(Dust.ZINC.asTag())
-                .addIngredient(Dust.COPPER.asTag())
-                .addIngredient(Dust.COPPER.asTag())
-                .addIngredient(Dust.COPPER.asTag())
-                .addCriterion("has_zinc_dust", hasItem(Dust.ZINC.asTag()))
-                .build(consumer);
+        ShapelessRecipeBuilder.shapeless(ModItems.DUST_BRASS.get(), 4)
+                .requires(Dust.ZINC.asTag())
+                .requires(Dust.COPPER.asTag())
+                .requires(Dust.COPPER.asTag())
+                .requires(Dust.COPPER.asTag())
+                .unlockedBy("has_zinc_dust", has(Dust.ZINC.asTag()))
+                .save(consumer);
 
         //Magnet
-        ShapedRecipeBuilder.shapedRecipe(ModItems.MAGNET.get())
-                .key('b', Tags.Items.DYES_BLUE)
-                .key('r', Tags.Items.DYES_RED)
-                .key('i', ModTags.Items.INGOT_MAGNETIC)
-                .patternLine("i i")
-                .patternLine("bir")
-                .addCriterion("has_item", hasItem(ModTags.Items.INGOT_MAGNETIC))
-                .build(consumer);
+        ShapedRecipeBuilder.shaped(ModItems.MAGNET.get())
+                .define('b', Tags.Items.DYES_BLUE)
+                .define('r', Tags.Items.DYES_RED)
+                .define('i', ModTags.Items.INGOT_MAGNETIC)
+                .pattern("i i")
+                .pattern("bir")
+                .unlockedBy("has_item", has(ModTags.Items.INGOT_MAGNETIC))
+                .save(consumer);
 
         //dev_null
-        ShapelessRecipeBuilder.shapelessRecipe(ModItems.DEV_NULL.get())
-                .addIngredient(Blocks.COBBLESTONE)
-                .addIngredient(Items.APPLE)
-                .addCriterion("has_apple", hasItem(Items.APPLE))
-                .build(consumer);
+        ShapelessRecipeBuilder.shapeless(ModItems.DEV_NULL.get())
+                .requires(Blocks.COBBLESTONE)
+                .requires(Items.APPLE)
+                .unlockedBy("has_apple", has(Items.APPLE))
+                .save(consumer);
     }
 }

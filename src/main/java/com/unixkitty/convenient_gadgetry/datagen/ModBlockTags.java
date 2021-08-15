@@ -15,9 +15,9 @@ public class ModBlockTags extends BlockTagsProvider
     }
 
     @Override
-    protected void registerTags()
+    protected void addTags()
     {
-        getOrCreateBuilder(ModTags.Blocks.MAGNET_BLACKLIST).add(Blocks.AIR);
+        tag(ModTags.Blocks.MAGNET_BLACKLIST).add(Blocks.AIR);
     }
 
     @Override

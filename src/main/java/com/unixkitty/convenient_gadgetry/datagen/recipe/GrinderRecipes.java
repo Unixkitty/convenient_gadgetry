@@ -56,7 +56,7 @@ public class GrinderRecipes extends RecipeProvider
     }
 
     @Override
-    protected void registerRecipes(Consumer<IFinishedRecipe> consumer)
+    protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer)
     {
         for (Dust dust : Dust.values())
         {
@@ -66,16 +66,16 @@ public class GrinderRecipes extends RecipeProvider
                     continue;
                 case COAL:
                     ore(dust, consumer);
-                    ingot(dust, Ingredient.fromItems(Items.COAL), consumer);
+                    ingot(dust, Ingredient.of(Items.COAL), consumer);
                     break;
                 case FLOUR:
-                    GrinderRecipeBuilder.create(dust.toString() + "_from_wheat", Ingredient.fromItems(Items.WHEAT), new ItemStack(dust)).build(consumer);
+                    GrinderRecipeBuilder.create(dust.toString() + "_from_wheat", Ingredient.of(Items.WHEAT), new ItemStack(dust)).build(consumer);
                     break;
                 case OBSIDIAN:
-                    GrinderRecipeBuilder.create(dust.toString() + "_from_obsidian", Ingredient.fromTag(Tags.Items.OBSIDIAN), new ItemStack(dust)).build(consumer);
+                    GrinderRecipeBuilder.create(dust.toString() + "_from_obsidian", Ingredient.of(Tags.Items.OBSIDIAN), new ItemStack(dust)).build(consumer);
                     break;
                 case CHARCOAL:
-                    ingot(dust, Ingredient.fromItems(Items.CHARCOAL), consumer);
+                    ingot(dust, Ingredient.of(Items.CHARCOAL), consumer);
                     break;
                 case MAGNETIC:
                 case BRASS:
@@ -84,7 +84,7 @@ public class GrinderRecipes extends RecipeProvider
                     break;
                 case QUARTZ:
                     ore(dust, consumer);
-                    ingot(dust, Ingredient.fromItems(Items.QUARTZ), consumer);
+                    ingot(dust, Ingredient.of(Items.QUARTZ), consumer);
                     break;
                 default:
                     ore(dust, consumer);
@@ -93,12 +93,12 @@ public class GrinderRecipes extends RecipeProvider
             }
         }
 
-        GrinderRecipeBuilder.create("blaze_powder_from_blaze_rods", Ingredient.fromItems(Items.BLAZE_ROD), new ItemStack(Items.BLAZE_POWDER, 4),
+        GrinderRecipeBuilder.create("blaze_powder_from_blaze_rods", Ingredient.of(Items.BLAZE_ROD), new ItemStack(Items.BLAZE_POWDER, 4),
                 4,
                 optional(new ItemStack(Dust.SULFUR), 0.5f)
         ).build(consumer);
 
-        GrinderRecipeBuilder.create("seeds_from_grass", Ingredient.fromItems(Blocks.GRASS), new ItemStack(Items.WHEAT_SEEDS),
+        GrinderRecipeBuilder.create("seeds_from_grass", Ingredient.of(Blocks.GRASS), new ItemStack(Items.WHEAT_SEEDS),
                 4,
                 optional(new ItemStack(Items.BEETROOT_SEEDS, 1), 0.125f),
                 optional(new ItemStack(ModBlocks.COTTON.get(), 1), 0.25f)
@@ -110,7 +110,7 @@ public class GrinderRecipes extends RecipeProvider
             ItemStack dyeStack = new ItemStack(item);
 
             GrinderRecipeBuilder.create("string_from_" + Objects.requireNonNull(DyeColor.getColor(dyeStack)).toString() + "_wool",
-                    Ingredient.fromItems(block),
+                    Ingredient.of(block),
                     new ItemStack(Items.STRING, 4),
                     IGrinderRecipe.CRANKS_DEFAULT,
                     optional(dyeStack, 0.5f)
@@ -118,21 +118,21 @@ public class GrinderRecipes extends RecipeProvider
 
         });
 
-        GrinderRecipeBuilder.create("gravel_from_cobble", Ingredient.fromTag(Tags.Items.COBBLESTONE), new ItemStack(Blocks.GRAVEL), 6).build(consumer);
-        GrinderRecipeBuilder.create("sand_from_gravel", Ingredient.fromTag(Tags.Items.GRAVEL), new ItemStack(Blocks.SAND)).build(consumer);
-        GrinderRecipeBuilder.create("redstone_dust" + from_ore, Ingredient.fromItems(Blocks.REDSTONE_ORE), new ItemStack(Items.REDSTONE, 6)).build(consumer);
-        GrinderRecipeBuilder.create("prismarine_shard_from_prismarine", Ingredient.fromItems(Blocks.PRISMARINE), new ItemStack(Items.PRISMARINE_SHARD, 2),
+        GrinderRecipeBuilder.create("gravel_from_cobble", Ingredient.of(Tags.Items.COBBLESTONE), new ItemStack(Blocks.GRAVEL), 6).build(consumer);
+        GrinderRecipeBuilder.create("sand_from_gravel", Ingredient.of(Tags.Items.GRAVEL), new ItemStack(Blocks.SAND)).build(consumer);
+        GrinderRecipeBuilder.create("redstone_dust" + from_ore, Ingredient.of(Blocks.REDSTONE_ORE), new ItemStack(Items.REDSTONE, 6)).build(consumer);
+        GrinderRecipeBuilder.create("prismarine_shard_from_prismarine", Ingredient.of(Blocks.PRISMARINE), new ItemStack(Items.PRISMARINE_SHARD, 2),
                 6,
                 optional(new ItemStack(Items.PRISMARINE_SHARD, 1), 0.5f)
         ).build(consumer);
-        GrinderRecipeBuilder.create("prismarine_shard_from_sea_lantern", Ingredient.fromItems(Blocks.SEA_LANTERN), new ItemStack(Items.PRISMARINE_SHARD, 2),
+        GrinderRecipeBuilder.create("prismarine_shard_from_sea_lantern", Ingredient.of(Blocks.SEA_LANTERN), new ItemStack(Items.PRISMARINE_SHARD, 2),
                 6,
                 optional(new ItemStack(Items.PRISMARINE_CRYSTALS, 1), 0.5f),
                 optional(new ItemStack(Items.PRISMARINE_CRYSTALS, 2), 0.25f)
         ).build(consumer);
-        GrinderRecipeBuilder.create("glowstone_dust_from_glowstone", Ingredient.fromItems(Blocks.GLOWSTONE), new ItemStack(Items.GLOWSTONE_DUST, 4)).build(consumer);
-        GrinderRecipeBuilder.create("sand_from_sandstone", Ingredient.fromTag(Tags.Items.SANDSTONE), new ItemStack(Blocks.SAND, 4), 6).build(consumer);
-        GrinderRecipeBuilder.create("bonemeal_from_bone", Ingredient.fromTag(Tags.Items.BONES), new ItemStack(Items.BONE_MEAL, 6), 8).build(consumer);
+        GrinderRecipeBuilder.create("glowstone_dust_from_glowstone", Ingredient.of(Blocks.GLOWSTONE), new ItemStack(Items.GLOWSTONE_DUST, 4)).build(consumer);
+        GrinderRecipeBuilder.create("sand_from_sandstone", Ingredient.of(Tags.Items.SANDSTONE), new ItemStack(Blocks.SAND, 4), 6).build(consumer);
+        GrinderRecipeBuilder.create("bonemeal_from_bone", Ingredient.of(Tags.Items.BONES), new ItemStack(Items.BONE_MEAL, 6), 8).build(consumer);
     }
 
     private Pair<ItemStack, Float> optional(ItemStack stack, float chance)
@@ -142,7 +142,7 @@ public class GrinderRecipes extends RecipeProvider
 
     private void ingot(Dust dust, Consumer<IFinishedRecipe> consumer)
     {
-        ingot(dust, Ingredient.fromTag(TagHelper.forgeItemTag("ingots", dust.getName())), IGrinderRecipe.CRANKS_DEFAULT * 2, consumer);
+        ingot(dust, Ingredient.of(TagHelper.forgeItemTag("ingots", dust.getName())), IGrinderRecipe.CRANKS_DEFAULT * 2, consumer);
     }
 
     private void ingot(Dust dust, Ingredient ingredient, Consumer<IFinishedRecipe> consumer)
@@ -157,7 +157,7 @@ public class GrinderRecipes extends RecipeProvider
 
     private void ore(Dust dust, Consumer<IFinishedRecipe> consumer)
     {
-        GrinderRecipeBuilder.create(dust.toString() + from_ore, Ingredient.fromTag(TagHelper.forgeItemTag("ores", dust.getName())), new ItemStack(dust, 2)).build(consumer);
+        GrinderRecipeBuilder.create(dust.toString() + from_ore, Ingredient.of(TagHelper.forgeItemTag("ores", dust.getName())), new ItemStack(dust, 2)).build(consumer);
     }
 
     @Override

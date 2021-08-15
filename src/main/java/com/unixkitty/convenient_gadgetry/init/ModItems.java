@@ -48,8 +48,8 @@ public final class ModItems
     public static final RegistryObject<Item> INGOT_BRASS = registerIngot(Ingot.BRASS);
     public static final RegistryObject<Item> INGOT_ZINC = registerIngot(Ingot.ZINC);
 
-    public static final RegistryObject<Item> MAGNET = ITEMS.register("magnet", () -> new MagnetItem(basicProperties().maxStackSize(1)));
-    public static final RegistryObject<Item> DEV_NULL = ITEMS.register("dev_null", () -> new DevNullItem(basicProperties().maxStackSize(1)));
+    public static final RegistryObject<Item> MAGNET = ITEMS.register("magnet", () -> new MagnetItem(basicProperties().stacksTo(1)));
+    public static final RegistryObject<Item> DEV_NULL = ITEMS.register("dev_null", () -> new DevNullItem(basicProperties().stacksTo(1)));
 
     private static RegistryObject<Item> registerDust(Dust dust)
     {
@@ -63,6 +63,6 @@ public final class ModItems
 
     private static Item.Properties basicProperties()
     {
-        return new Item.Properties().group(ModItemGroups.PRIMARY);
+        return new Item.Properties().tab(ModItemGroups.PRIMARY);
     }
 }

@@ -27,37 +27,37 @@ public abstract class AbstractModContainer extends Container
      */
     @Nonnull
     @Override
-    public ItemStack transferStackInSlot(@Nonnull final PlayerEntity player, final int index)
+    public ItemStack quickMoveStack(@Nonnull final PlayerEntity player, final int index)
     {
         ItemStack returnStack = ItemStack.EMPTY;
-        final Slot slot = this.inventorySlots.get(index);
+        final Slot slot = this.slots.get(index);
 
-        if (slot != null && slot.getHasStack())
+        if (slot != null && slot.hasItem())
         {
-            final ItemStack slotStack = slot.getStack();
+            final ItemStack slotStack = slot.getItem();
             returnStack = slotStack.copy();
 
-            final int containerSlots = this.inventorySlots.size() - player.inventory.mainInventory.size();
+            final int containerSlots = this.slots.size() - player.inventory.items.size();
 
             if (index < containerSlots)
             {
-                if (!mergeItemStack(slotStack, containerSlots, this.inventorySlots.size(), true))
+                if (!moveItemStackTo(slotStack, containerSlots, this.slots.size(), true))
                 {
                     return ItemStack.EMPTY;
                 }
             }
-            else if (!mergeItemStack(slotStack, 0, containerSlots, false))
+            else if (!moveItemStackTo(slotStack, 0, containerSlots, false))
             {
                 return ItemStack.EMPTY;
             }
 
             if (slotStack.getCount() == 0)
             {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             }
             else
             {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
 
             if (slotStack.getCount() == returnStack.getCount())

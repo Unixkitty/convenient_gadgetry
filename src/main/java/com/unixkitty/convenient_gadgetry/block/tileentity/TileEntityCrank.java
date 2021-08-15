@@ -42,12 +42,12 @@ public class TileEntityCrank extends TileEntityMod
 
     public boolean handleRightClick(PlayerEntity player)
     {
-        if (this.getWorld() == null || this.getWorld().isRemote())
+        if (this.getLevel() == null || this.getLevel().isClientSide())
         {
             return false;
         }
 
-        long crankAttemptTime = this.getWorld().getGameTime();
+        long crankAttemptTime = this.getLevel().getGameTime();
 
         if ((crankAttemptTime - lastCrankAttempt) >= ticksPerCrankRotation)
         {
@@ -60,7 +60,7 @@ public class TileEntityCrank extends TileEntityMod
                 if (grinder.canCrank(player))
                 {
                     this.damage = 0;
-                    this.markDirty();
+                    this.setChanged();
 
                     grinder.crank(player);
 
@@ -68,7 +68,7 @@ public class TileEntityCrank extends TileEntityMod
                 }
                 else
                 {
-                    this.getWorld().playSound(null, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, SoundEvents.BLOCK_WOOD_STEP, SoundCategory.BLOCKS, 0.75f, 1.0f);
+                    this.getLevel().playSound(null, worldPosition.getX() + 0.5D, worldPosition.getY() + 0.5D, worldPosition.getZ() + 0.5D, SoundEvents.WOOD_STEP, SoundCategory.BLOCKS, 0.75f, 1.0f);
 
                     this.applyDamage();
                 }
@@ -80,12 +80,12 @@ public class TileEntityCrank extends TileEntityMod
 
     private TileEntityGrinder getGrinder()
     {
-        if (this.getWorld() == null)
+        if (this.getLevel() == null)
         {
             return null;
         }
 
-        final TileEntity tileEntity = this.getWorld().getTileEntity(this.pos.down());
+        final TileEntity tileEntity = this.getLevel().getBlockEntity(this.worldPosition.below());
 
         if (tileEntity instanceof TileEntityGrinder)
         {
@@ -101,7 +101,7 @@ public class TileEntityCrank extends TileEntityMod
 
         if (this.damage > 10)
         {
-            ((CrankBlock) this.getBlockState().getBlock()).dropCrank(Objects.requireNonNull(this.getWorld()), pos);
+            ((CrankBlock) this.getBlockState().getBlock()).dropCrank(Objects.requireNonNull(this.getLevel()), worldPosition);
         }
     }
 }

@@ -23,6 +23,8 @@ import net.minecraftforge.fml.DistExecutor;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 public class BucketArmorItem extends ArmorItem
 {
     private LazyValue<BipedModel<LivingEntity>> model;
@@ -40,7 +42,7 @@ public class BucketArmorItem extends ArmorItem
     @Override
     public BipedModel getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, BipedModel _default)
     {
-        return this.model.getValue();
+        return this.model.get();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -56,17 +58,17 @@ public class BucketArmorItem extends ArmorItem
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
     {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
 
-        tooltip.add(new TranslationTextComponent("text.convenient_gadgetry.bucket.info").mergeStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("text.convenient_gadgetry.bucket.info").withStyle(TextFormatting.GRAY));
     }
 
     @Override
-    public String getTranslationKey()
+    public String getDescriptionId()
     {
-        return Items.BUCKET.getTranslationKey();
+        return Items.BUCKET.getDescriptionId();
     }
 
     private static class BucketArmorMaterial implements IArmorMaterial
@@ -79,11 +81,11 @@ public class BucketArmorItem extends ArmorItem
                 "bucket",
                 0,
                 1,
-                IRON.getEnchantability(),
+                IRON.getEnchantmentValue(),
                 0.25f,
                 GOLD,
                 IRON,
-                IRON.getSoundEvent(),
+                IRON.getEquipSound(),
                 Tags.Items.INGOTS_IRON
         );
 
@@ -92,33 +94,33 @@ public class BucketArmorItem extends ArmorItem
         }
 
         @Override
-        public int getDurability(EquipmentSlotType slot)
+        public int getDurabilityForSlot(EquipmentSlotType slot)
         {
-            return DYNAMIC_PROPERTIES.getDurability(slot);
+            return DYNAMIC_PROPERTIES.getDurabilityForSlot(slot);
         }
 
         @Override
-        public int getDamageReductionAmount(EquipmentSlotType slot)
+        public int getDefenseForSlot(EquipmentSlotType slot)
         {
-            return IRON.getDamageReductionAmount(slot);
+            return IRON.getDefenseForSlot(slot);
         }
 
         @Override
-        public int getEnchantability()
+        public int getEnchantmentValue()
         {
-            return IRON.getEnchantability();
+            return IRON.getEnchantmentValue();
         }
 
         @Override
-        public SoundEvent getSoundEvent()
+        public SoundEvent getEquipSound()
         {
-            return DYNAMIC_PROPERTIES.getSoundEvent();
+            return DYNAMIC_PROPERTIES.getEquipSound();
         }
 
         @Override
-        public Ingredient getRepairMaterial()
+        public Ingredient getRepairIngredient()
         {
-            return DYNAMIC_PROPERTIES.getRepairMaterial();
+            return DYNAMIC_PROPERTIES.getRepairIngredient();
         }
 
         @Override

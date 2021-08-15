@@ -26,16 +26,16 @@ import java.util.stream.Stream;
 public class TrashcanBlock extends ContainerBlock
 {
     private static final VoxelShape SHAPE = Stream.of(
-            Block.makeCuboidShape(2, 0, 2, 14, 1, 14),
-            Block.makeCuboidShape(3, 1, 3, 13, 14, 13),
-            Block.makeCuboidShape(2, 14, 2, 14, 15, 14),
-            Block.makeCuboidShape(1, 15, 1, 15, 16, 15)
+            Block.box(2, 0, 2, 14, 1, 14),
+            Block.box(3, 1, 3, 13, 14, 13),
+            Block.box(2, 14, 2, 14, 15, 14),
+            Block.box(1, 15, 1, 15, 16, 15)
     )
-            .reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
+            .reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
 
     public TrashcanBlock()
     {
-        super(Block.Properties.from(Blocks.IRON_BLOCK).setAllowsSpawn(ModBlocks::neverAllowSpawn));
+        super(Block.Properties.copy(Blocks.IRON_BLOCK).isValidSpawn(ModBlocks::neverAllowSpawn));
     }
 
     /**
@@ -47,36 +47,36 @@ public class TrashcanBlock extends ContainerBlock
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos, final ISelectionContext context)
     {
         return Stream.of(
-                Block.makeCuboidShape(3, 0, 3, 13, 12, 13),
-                Block.makeCuboidShape(2, 12, 2, 14, 14, 14),
-                Block.makeCuboidShape(5, 15, 7, 11, 16, 9),
-                Block.makeCuboidShape(10, 14, 7, 11, 15, 9),
-                Block.makeCuboidShape(5, 14, 7, 6, 15, 9),
-                Block.makeCuboidShape(2, 9, 6, 3, 10, 10),
-                Block.makeCuboidShape(13, 9, 6, 14, 10, 10)
+                Block.box(3, 0, 3, 13, 12, 13),
+                Block.box(2, 12, 2, 14, 14, 14),
+                Block.box(5, 15, 7, 11, 16, 9),
+                Block.box(10, 14, 7, 11, 15, 9),
+                Block.box(5, 14, 7, 6, 15, 9),
+                Block.box(2, 9, 6, 3, 10, 10),
+                Block.box(13, 9, 6, 14, 10, 10)
         )
-                .reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
+                .reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state)
+    public BlockRenderType getRenderShape(BlockState state)
     {
         return BlockRenderType.MODEL;
     }
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn)
+    public TileEntity newBlockEntity(IBlockReader worldIn)
     {
         return ModTileEntityTypes.TRASHCAN.get().create();
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit)
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit)
     {
-        if (!world.isRemote)
+        if (!world.isClientSide)
         {
-            TileEntity tile = world.getTileEntity(pos);
+            TileEntity tile = world.getBlockEntity(pos);
 
             if (!(tile instanceof TileEntityTrashcan)) return ActionResultType.FAIL;
 

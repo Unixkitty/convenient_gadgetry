@@ -24,7 +24,7 @@ public final class ModRegistry
         // BlockItems for all blocks
         ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block ->
         {
-            Item.Properties properties = new Item.Properties().group(ModItemGroups.PRIMARY);
+            Item.Properties properties = new Item.Properties().tab(ModItemGroups.PRIMARY);
 
             Item itemBlock;
 
@@ -36,7 +36,7 @@ public final class ModRegistry
             {
                 if (block instanceof CrankBlock)
                 {
-                    properties.maxStackSize(1);
+                    properties.stacksTo(1);
                 }
 
                 itemBlock = new BlockItem(block, properties);

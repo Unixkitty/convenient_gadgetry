@@ -82,14 +82,14 @@ public class DevNullContainer extends AbstractModContainer
 
     @Nonnull
     @Override
-    public ItemStack transferStackInSlot(@Nonnull final PlayerEntity playerIn, int index)
+    public ItemStack quickMoveStack(@Nonnull final PlayerEntity playerIn, int index)
     {
         ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
+        Slot slot = this.slots.get(index);
 
-        if (slot != null && slot.getHasStack())
+        if (slot != null && slot.hasItem())
         {
-            ItemStack currentStack = slot.getStack();
+            ItemStack currentStack = slot.getItem();
 
             // Don't accept instances of itself
             if (currentStack.getItem() instanceof DevNullItem)
@@ -107,14 +107,14 @@ public class DevNullContainer extends AbstractModContainer
 
             for (int i = 0; i < NUM_SLOTS; i++)
             {
-                if (this.inventorySlots.get(i).getStack().isEmpty())
+                if (this.slots.get(i).getItem().isEmpty())
                 {
                     slotNumber = i;
                     break;
                 }
                 else
                 {
-                    if (this.inventorySlots.get(i).getStack().getItem() == currentStack.getItem())
+                    if (this.slots.get(i).getItem().getItem() == currentStack.getItem())
                     {
                         break;
                     }
@@ -126,7 +126,7 @@ public class DevNullContainer extends AbstractModContainer
                 return itemstack;
             }
 
-            this.inventorySlots.get(slotNumber).putStack(currentStack.copy().split(1));
+            this.slots.get(slotNumber).set(currentStack.copy().split(1));
         }
 
         return itemstack;
@@ -134,21 +134,21 @@ public class DevNullContainer extends AbstractModContainer
 
     @Nonnull
     @Override
-    public ItemStack slotClick(int slotId, int dragType, @Nonnull ClickType clickTypeIn, @Nonnull final PlayerEntity player)
+    public ItemStack clicked(int slotId, int dragType, @Nonnull ClickType clickTypeIn, @Nonnull final PlayerEntity player)
     {
-        if ((slotId < this.inventorySlots.size()
+        if ((slotId < this.slots.size()
                 && slotId >= 0
-                && this.inventorySlots.get(slotId).getStack().getItem() instanceof DevNullItem)
+                && this.slots.get(slotId).getItem().getItem() instanceof DevNullItem)
                 || clickTypeIn == ClickType.SWAP)
         {
             return ItemStack.EMPTY;
         }
 
-        return super.slotClick(slotId, dragType, clickTypeIn, player);
+        return super.clicked(slotId, dragType, clickTypeIn, player);
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull final PlayerEntity player)
+    public boolean stillValid(@Nonnull final PlayerEntity player)
     {
         return true;
     }

@@ -25,30 +25,30 @@ public class GrinderBlock extends ContainerBlock
 {
     public GrinderBlock()
     {
-        super(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.5F));
+        super(Block.Properties.of(Material.STONE).strength(3.5F));
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state)
+    public BlockRenderType getRenderShape(BlockState state)
     {
         return BlockRenderType.MODEL;
     }
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn)
+    public TileEntity newBlockEntity(IBlockReader worldIn)
     {
         return ModTileEntityTypes.GRINDER.get().create();
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
     {
-        if (!world.isRemote)
+        if (!world.isClientSide)
         {
-            if (this.getContainer(state, world, pos) != null && player instanceof ServerPlayerEntity)
+            if (this.getMenuProvider(state, world, pos) != null && player instanceof ServerPlayerEntity)
             {
-                TileEntity tile = world.getTileEntity(pos);
+                TileEntity tile = world.getBlockEntity(pos);
 
                 if (tile instanceof TileEntityGrinder)
                 {
@@ -65,11 +65,11 @@ public class GrinderBlock extends ContainerBlock
     }
 
     @Override
-    public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving)
+    public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving)
     {
         if (state.getBlock() != newState.getBlock())
         {
-            TileEntity tileEntity = world.getTileEntity(pos);
+            TileEntity tileEntity = world.getBlockEntity(pos);
 
             if (tileEntity instanceof TileEntityGrinder)
             {
@@ -77,17 +77,17 @@ public class GrinderBlock extends ContainerBlock
 
                 for (int slot = 0; slot < grinder.getItemHandler().getSlots(); slot++)
                 {
-                    InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), grinder.getItemHandler().getStackInSlot(slot));
+                    InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), grinder.getItemHandler().getStackInSlot(slot));
                 }
             }
         }
-        super.onReplaced(state, world, pos, newState, isMoving);
+        super.onRemove(state, world, pos, newState, isMoving);
     }
 
     @Override
-    public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos)
+    public int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos)
     {
         //TODO calculate signal based on inventory
-        return super.getComparatorInputOverride(blockState, worldIn, pos);
+        return super.getAnalogOutputSignal(blockState, worldIn, pos);
     }
 }

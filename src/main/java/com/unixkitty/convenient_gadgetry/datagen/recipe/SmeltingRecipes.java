@@ -26,7 +26,7 @@ public class SmeltingRecipes extends SmeltingRecipeProvider
     }
 
     @Override
-    protected void registerRecipes(Consumer<IFinishedRecipe> consumer)
+    protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer)
     {
         ingot(consumer, Dust.IRON.asTag(), Items.IRON_INGOT, "iron_ingot_from_dust");
         ingot(consumer, Dust.GOLD.asTag(), Items.GOLD_INGOT, "gold_ingot_from_dust");
@@ -46,35 +46,35 @@ public class SmeltingRecipes extends SmeltingRecipeProvider
 
     private void basicCooking(Consumer<IFinishedRecipe> consumer, ITag<Item> input, IItemProvider result, String name)
     {
-        CookingRecipeBuilder.smeltingRecipe(
-                Ingredient.fromTag(input),
+        CookingRecipeBuilder.smelting(
+                Ingredient.of(input),
                 result,
                 0,
                 200)
-                .addCriterion("has_item", hasItem(input))
-                .build(consumer, new ResourceLocation(ConvenientGadgetry.MODID, "smelting/" + name));
+                .unlockedBy("has_item", has(input))
+                .save(consumer, new ResourceLocation(ConvenientGadgetry.MODID, "smelting/" + name));
     }
 
     private void basicBlasting(Consumer<IFinishedRecipe> consumer, ITag<Item> input, IItemProvider result, String name)
     {
-        CookingRecipeBuilder.blastingRecipe(
-                Ingredient.fromTag(input),
+        CookingRecipeBuilder.blasting(
+                Ingredient.of(input),
                 result,
                 0,
                 100)
-                .addCriterion("has_item", hasItem(input))
-                .build(consumer, new ResourceLocation(ConvenientGadgetry.MODID, "blasting/" + name));
+                .unlockedBy("has_item", has(input))
+                .save(consumer, new ResourceLocation(ConvenientGadgetry.MODID, "blasting/" + name));
     }
 
     private void basicSmoking(Consumer<IFinishedRecipe> consumer, ITag<Item> input, IItemProvider result, String name)
     {
-        CookingRecipeBuilder.cookingRecipe(
-                Ingredient.fromTag(input),
+        CookingRecipeBuilder.cooking(
+                Ingredient.of(input),
                 result,
                 0.35F,
                 100,
-                IRecipeSerializer.SMOKING).
-                addCriterion("has_item", hasItem(input))
-                .build(consumer, new ResourceLocation(ConvenientGadgetry.MODID, "smoking/" + name));
+                IRecipeSerializer.SMOKING_RECIPE).
+                unlockedBy("has_item", has(input))
+                .save(consumer, new ResourceLocation(ConvenientGadgetry.MODID, "smoking/" + name));
     }
 }

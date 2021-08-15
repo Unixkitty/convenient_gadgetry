@@ -33,12 +33,12 @@ public class GrinderContainer extends AbstractModContainer
     public GrinderContainer(final int windowId, final PlayerInventory playerInventory, final TileEntityGrinder tileEntity)
     {
         super(ModContainerTypes.GRINDER.get(), windowId);
-        this.canInteractWithCallable = IWorldPosCallable.of(Objects.requireNonNull(tileEntity.getWorld()), tileEntity.getPos());
+        this.canInteractWithCallable = IWorldPosCallable.create(Objects.requireNonNull(tileEntity.getLevel()), tileEntity.getBlockPos());
 
         this.tileEntity = tileEntity;
 
-        this.trackInt(new FunctionalIntReferenceHolder(() -> tileEntity.cranksNeeded, v -> tileEntity.cranksNeeded = (short) v));
-        this.trackInt(new FunctionalIntReferenceHolder(() -> tileEntity.cranks, v -> tileEntity.cranks = (short) v));
+        this.addDataSlot(new FunctionalIntReferenceHolder(() -> tileEntity.cranksNeeded, v -> tileEntity.cranksNeeded = (short) v));
+        this.addDataSlot(new FunctionalIntReferenceHolder(() -> tileEntity.cranks, v -> tileEntity.cranks = (short) v));
 
         final int INPUT_SLOT_X = 8;
         final int INPUT_SLOT_Y = 35;
@@ -62,7 +62,7 @@ public class GrinderContainer extends AbstractModContainer
         this.addSlot(new SlotItemHandler(tileEntity.getItemHandler(), TileEntityGrinder.PROCESSING_SLOT, PROCESSING_SLOT_X, PROCESSING_SLOT_Y)
         {
             @Override
-            public boolean canTakeStack(PlayerEntity playerIn)
+            public boolean mayPickup(PlayerEntity playerIn)
             {
                 return false;
             }
@@ -109,7 +109,7 @@ public class GrinderContainer extends AbstractModContainer
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
 
-        final TileEntity tileAtPos = playerInventory.player.world.getTileEntity(data.readBlockPos());
+        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
 
         if (tileAtPos instanceof TileEntityGrinder)
         {
@@ -120,8 +120,8 @@ public class GrinderContainer extends AbstractModContainer
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull final PlayerEntity player)
+    public boolean stillValid(@Nonnull final PlayerEntity player)
     {
-        return isWithinUsableDistance(canInteractWithCallable, player, Objects.requireNonNull(ModBlocks.GRINDER).get());
+        return stillValid(canInteractWithCallable, player, Objects.requireNonNull(ModBlocks.GRINDER).get());
     }
 }

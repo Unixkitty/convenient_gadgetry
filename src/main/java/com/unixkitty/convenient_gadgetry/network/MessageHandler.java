@@ -78,14 +78,14 @@ public class MessageHandler
         {
             context.enqueueWork(() ->
             {
-                Container container = context.getSender().openContainer;
+                Container container = context.getSender().containerMenu;
                 if (container != null)
                 {
-                    Slot slot = container.inventorySlots.get(((MessageGhostSlot) message).getSlotIndex());
+                    Slot slot = container.slots.get(((MessageGhostSlot) message).getSlotIndex());
 
                     if (slot instanceof GhostSlot)
                     {
-                        slot.putStack(((MessageGhostSlot) message).getItemStack());
+                        slot.set(((MessageGhostSlot) message).getItemStack());
                     }
                 }
             });

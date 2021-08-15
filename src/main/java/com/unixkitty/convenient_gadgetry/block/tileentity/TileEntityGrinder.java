@@ -87,7 +87,7 @@ public class TileEntityGrinder extends TileEntityMod implements INamedContainerP
             super.onContentsChanged(slot);
 
             //Required for the game to save it to disk
-            TileEntityGrinder.this.markDirty();
+            TileEntityGrinder.this.setChanged();
         }
     };
 
@@ -163,14 +163,14 @@ public class TileEntityGrinder extends TileEntityMod implements INamedContainerP
 
             if (!outputs.isPresent())
             {
-                throw new IllegalStateException("Something went wrong while getting IGrinderRecipe outputs for " + processingStack.getTranslationKey());
+                throw new IllegalStateException("Something went wrong while getting IGrinderRecipe outputs for " + processingStack.getDescriptionId());
             }
 
             this.produceOutput(outputs.get().get(0).getKey().copy());
 
             if (Config.grinderPlayPopSound.get())
             {
-                this.getWorld().playSound(null, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 0.5f, 1.0f);
+                this.getLevel().playSound(null, worldPosition.getX() + 0.5D, worldPosition.getY() + 0.5D, worldPosition.getZ() + 0.5D, SoundEvents.AXE_STRIP, SoundCategory.BLOCKS, 0.5f, 1.0f);
             }
 
             //If any optional outputs
@@ -178,7 +178,7 @@ public class TileEntityGrinder extends TileEntityMod implements INamedContainerP
             {
                 for (int i = 1; i < outputs.get().size(); i++)
                 {
-                    if (Objects.requireNonNull(this.world).rand.nextFloat() <= outputs.get().get(i).getValue())
+                    if (Objects.requireNonNull(this.level).random.nextFloat() <= outputs.get().get(i).getValue())
                     {
                         this.produceOutput(outputs.get().get(i).getKey().copy());
                     }
@@ -196,7 +196,7 @@ public class TileEntityGrinder extends TileEntityMod implements INamedContainerP
 
     private boolean allowed(PlayerEntity playerEntity)
     {
-        return playerEntity == null || playerEntity instanceof FakePlayer || playerEntity.getEntityWorld().isRemote();
+        return playerEntity == null || playerEntity instanceof FakePlayer || playerEntity.getCommandSenderWorld().isClientSide();
     }
 
     /* RECIPE LOGIC */
@@ -284,7 +284,7 @@ public class TileEntityGrinder extends TileEntityMod implements INamedContainerP
 
     private Optional<IGrinderRecipe> getRecipe(final IInventory fakeInventory)
     {
-        return this.world.getRecipeManager().getRecipe(ModRecipeTypes.GRINDING, fakeInventory, this.world);
+        return this.level.getRecipeManager().getRecipeFor(ModRecipeTypes.GRINDING, fakeInventory, this.level);
     }
 
     private Optional<List<Pair<ItemStack, Float>>> getResults(final ItemStack inputStack)
@@ -299,7 +299,7 @@ public class TileEntityGrinder extends TileEntityMod implements INamedContainerP
     @Override
     public ITextComponent getDisplayName()
     {
-        return new TranslationTextComponent(Objects.requireNonNull(ModBlocks.GRINDER).get().getTranslationKey());
+        return new TranslationTextComponent(Objects.requireNonNull(ModBlocks.GRINDER).get().getDescriptionId());
     }
 
     @Nullable
@@ -350,9 +350,9 @@ public class TileEntityGrinder extends TileEntityMod implements INamedContainerP
      * Invalidates tile entity
      */
     @Override
-    public void remove()
+    public void setRemoved()
     {
-        super.remove();
+        super.setRemoved();
         // We need to invalidate our capability references so that any cached references (by other mods) don't
         // continue to reference our capabilities and try to use them and/or prevent them from being garbage collected
         inventoryCapabilityExternal.invalidate();
@@ -365,13 +365,13 @@ public class TileEntityGrinder extends TileEntityMod implements INamedContainerP
 
     public void forceClientSync()
     {
-        this.markDirty();
+        this.setChanged();
 
         SUpdateTileEntityPacket packet = this.getUpdatePacket();
 
-        if (packet != null && this.getWorld() instanceof ServerWorld)
+        if (packet != null && this.getLevel() instanceof ServerWorld)
         {
-            ((ServerChunkProvider) this.getWorld().getChunkProvider()).chunkManager.getTrackingPlayers(new ChunkPos(this.getPos()), false).forEach(e -> e.connection.sendPacket(packet));
+            ((ServerChunkProvider) this.getLevel().getChunkSource()).chunkMap.getPlayers(new ChunkPos(this.getBlockPos()), false).forEach(e -> e.connection.send(packet));
         }
     }
 }

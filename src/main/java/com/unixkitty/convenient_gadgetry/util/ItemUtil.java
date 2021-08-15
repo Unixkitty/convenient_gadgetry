@@ -17,9 +17,9 @@ public class ItemUtil
 
     public static ItemStack getStackIfPlayerHas(final ItemStack referenceStack, final PlayerEntity player)
     {
-        for (final ItemStack stack : player.inventory.mainInventory)
+        for (final ItemStack stack : player.inventory.items)
         {
-            if (stack.isItemEqual(referenceStack))
+            if (stack.sameItem(referenceStack))
             {
                 return stack;
             }
@@ -35,7 +35,7 @@ public class ItemUtil
 
         if (stack != null)
         {
-            return player.inventory.getSlotFor(stack);
+            return player.inventory.findSlotMatchingItem(stack);
         }
 
         return -1;
@@ -76,6 +76,6 @@ public class ItemUtil
             finalVector = finalVector.normalize();
         }
 
-        entity.setMotion(finalVector.multiply(modifier).toVec3D());
+        entity.setDeltaMovement(finalVector.multiply(modifier).toVec3D());
     }
 }

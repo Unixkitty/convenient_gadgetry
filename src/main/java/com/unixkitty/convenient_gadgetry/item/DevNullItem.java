@@ -17,6 +17,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 public class DevNullItem extends Item
 {
     public static final String FILTERS_TAG = "filters";
@@ -30,11 +32,11 @@ public class DevNullItem extends Item
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
     {
-        if (!world.isRemote)
+        if (!world.isClientSide)
         {
-            ItemStack itemStack = player.getHeldItem(hand);
+            ItemStack itemStack = player.getItemInHand(hand);
 
             if (itemStack.getItem() instanceof DevNullItem)
             {
@@ -47,26 +49,26 @@ public class DevNullItem extends Item
                     }
                 };
 
-                ghostInventory.deserializeNBT(itemStack.getOrCreateChildTag(FILTERS_TAG));
+                ghostInventory.deserializeNBT(itemStack.getOrCreateTagElement(FILTERS_TAG));
 
-                player.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerEntity) ->
+                player.openMenu(new SimpleNamedContainerProvider((id, playerInventory, playerEntity) ->
                         new DevNullContainer(id, playerInventory, ghostInventory), new StringTextComponent("")
                 ));
             }
         }
 
-        return super.onItemRightClick(world, player, hand);
+        return super.use(world, player, hand);
     }
 
     public static List<ItemStack> getFiltersAsList(ItemStack devNull)
     {
         List<ItemStack> stacks = new ArrayList<>();
-        ListNBT tagList = devNull.getOrCreateChildTag(FILTERS_TAG).getList("Items", Constants.NBT.TAG_COMPOUND);
+        ListNBT tagList = devNull.getOrCreateTagElement(FILTERS_TAG).getList("Items", Constants.NBT.TAG_COMPOUND);
 
         for (int i = 0; i < tagList.size(); i++)
         {
             CompoundNBT itemTags = tagList.getCompound(i);
-            stacks.add(ItemStack.read(itemTags));
+            stacks.add(ItemStack.of(itemTags));
         }
 
         return stacks;

@@ -28,23 +28,23 @@ public class TrashcanScreen extends ContainerScreen<TrashcanContainer>
     {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+        this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY)
+    protected void renderBg(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY)
     {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        getMinecraft().getTextureManager().bindTexture(BACKGROUND_TEXTURE);
+        getMinecraft().getTextureManager().bind(BACKGROUND_TEXTURE);
 
-        this.blit(matrixStack, (width - xSize) / 2, (height - ySize) / 2, 0, 0, xSize, ySize);
+        this.blit(matrixStack, (width - imageWidth) / 2, (height - imageHeight) / 2, 0, 0, imageWidth, imageHeight);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY)
+    protected void renderLabels(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY)
     {
-        String s = I18n.format(ModBlocks.TRASHCAN.get().getTranslationKey());
-        this.font.drawString(matrixStack, s, (float) (this.xSize / 2 - this.font.getStringWidth(s) / 2), 6.0F, 0x404040);
-        this.font.drawString(matrixStack, I18n.format("container.inventory"), 8.0F, (float) (this.ySize - 96 + 2), 0x404040);
+        String s = I18n.get(ModBlocks.TRASHCAN.get().getDescriptionId());
+        this.font.draw(matrixStack, s, (float) (this.imageWidth / 2 - this.font.width(s) / 2), 6.0F, 0x404040);
+        this.font.draw(matrixStack, I18n.get("container.inventory"), 8.0F, (float) (this.imageHeight - 96 + 2), 0x404040);
     }
 }
