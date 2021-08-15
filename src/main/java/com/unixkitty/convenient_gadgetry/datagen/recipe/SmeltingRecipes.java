@@ -47,10 +47,10 @@ public class SmeltingRecipes extends SmeltingRecipeProvider
     private void basicCooking(Consumer<IFinishedRecipe> consumer, ITag<Item> input, IItemProvider result, String name)
     {
         CookingRecipeBuilder.smelting(
-                Ingredient.of(input),
-                result,
-                0,
-                200)
+                        Ingredient.of(input),
+                        result,
+                        0,
+                        200)
                 .unlockedBy("has_item", has(input))
                 .save(consumer, new ResourceLocation(ConvenientGadgetry.MODID, "smelting/" + name));
     }
@@ -58,10 +58,10 @@ public class SmeltingRecipes extends SmeltingRecipeProvider
     private void basicBlasting(Consumer<IFinishedRecipe> consumer, ITag<Item> input, IItemProvider result, String name)
     {
         CookingRecipeBuilder.blasting(
-                Ingredient.of(input),
-                result,
-                0,
-                100)
+                        Ingredient.of(input),
+                        result,
+                        0,
+                        100)
                 .unlockedBy("has_item", has(input))
                 .save(consumer, new ResourceLocation(ConvenientGadgetry.MODID, "blasting/" + name));
     }
@@ -69,11 +69,11 @@ public class SmeltingRecipes extends SmeltingRecipeProvider
     private void basicSmoking(Consumer<IFinishedRecipe> consumer, ITag<Item> input, IItemProvider result, String name)
     {
         CookingRecipeBuilder.cooking(
-                Ingredient.of(input),
-                result,
-                0.35F,
-                100,
-                IRecipeSerializer.SMOKING_RECIPE).
+                        Ingredient.of(input),
+                        result,
+                        0.35F,
+                        100,
+                        IRecipeSerializer.SMOKING_RECIPE).
                 unlockedBy("has_item", has(input))
                 .save(consumer, new ResourceLocation(ConvenientGadgetry.MODID, "smoking/" + name));
     }

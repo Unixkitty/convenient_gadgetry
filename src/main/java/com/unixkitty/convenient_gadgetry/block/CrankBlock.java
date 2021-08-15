@@ -44,24 +44,24 @@ public class CrankBlock extends Block
     public static final DirectionProperty FACING_PROPERTY = BlockStateProperties.HORIZONTAL_FACING;
 
     public static final VoxelShape SHAPE_NORTH = Stream.of(
-            SHAPE_SHAFT,
-            SHAPE_N
-    )
+                    SHAPE_SHAFT,
+                    SHAPE_N
+            )
             .reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
     public static final VoxelShape SHAPE_EAST = Stream.of(
-            SHAPE_SHAFT,
-            SHAPE_E
-    )
+                    SHAPE_SHAFT,
+                    SHAPE_E
+            )
             .reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
     public static final VoxelShape SHAPE_SOUTH = Stream.of(
-            SHAPE_SHAFT,
-            SHAPE_S
-    )
+                    SHAPE_SHAFT,
+                    SHAPE_S
+            )
             .reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
     public static final VoxelShape SHAPE_WEST = Stream.of(
-            SHAPE_SHAFT,
-            SHAPE_W
-    )
+                    SHAPE_SHAFT,
+                    SHAPE_W
+            )
             .reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
 
     public CrankBlock()

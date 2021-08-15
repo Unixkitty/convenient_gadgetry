@@ -23,8 +23,6 @@ import net.minecraftforge.fml.DistExecutor;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import net.minecraft.item.Item.Properties;
-
 public class BucketArmorItem extends ArmorItem
 {
     private LazyValue<BipedModel<LivingEntity>> model;

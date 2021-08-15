@@ -1,13 +1,11 @@
 package com.unixkitty.convenient_gadgetry.datagen;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
-import com.unixkitty.convenient_gadgetry.init.ModTags;
 import com.unixkitty.convenient_gadgetry.item.Dust;
 import com.unixkitty.convenient_gadgetry.item.Ingot;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
-import net.minecraft.item.Items;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -34,8 +32,6 @@ public class ModItemTags extends ItemTagsProvider
             tag(Tags.Items.INGOTS).addTag(ingot.asTag());
             tag(ingot.asTag()).add(ingot.asItem());
         });
-
-        tag(ModTags.Items.MAGNET_BLACKLIST).add(Items.AIR);
     }
 
     @Override

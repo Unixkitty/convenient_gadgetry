@@ -17,8 +17,6 @@ import net.minecraftforge.items.ItemStackHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.item.Item.Properties;
-
 public class DevNullItem extends Item
 {
     public static final String FILTERS_TAG = "filters";

@@ -1,7 +1,6 @@
 package com.unixkitty.convenient_gadgetry.item;
 
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
-import com.unixkitty.convenient_gadgetry.init.ModTags;
 import com.unixkitty.convenient_gadgetry.util.ItemUtil;
 import com.unixkitty.convenient_gadgetry.util.Vector3;
 import net.minecraft.client.util.ITooltipFlag;
@@ -23,8 +22,6 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.List;
-
-import net.minecraft.item.Item.Properties;
 
 public class MagnetItem extends Item
 {
@@ -150,14 +147,14 @@ public class MagnetItem extends Item
 
         }
 
-        if (!item.isAlive() || pickupDelay >= 40 /* || Magnet suppression block can go here */ || item.getPersistentData().getBoolean("PreventRemoteMovement"))
+        if (!item.isAlive() || pickupDelay >= 40 /* || Magnet suppression blocks can go here */ || item.getPersistentData().getBoolean("PreventRemoteMovement"))
         {
             return false;
         }
 
         ItemStack stack = item.getItem();
 
-        return !stack.isEmpty() && !ModTags.Items.MAGNET_BLACKLIST.contains(stack.getItem());
+        return !stack.isEmpty()/* && !ModTags.Items.MAGNET_BLACKLIST.contains(stack.getItem())*/;
 
 /*        BlockPos pos = item.getPosition();
 
