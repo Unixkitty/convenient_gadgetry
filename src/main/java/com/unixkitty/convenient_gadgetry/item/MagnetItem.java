@@ -34,7 +34,7 @@ public class MagnetItem extends Item
 
     private static final int range = 8;
 
-    private static final Field PICKUP_DELAY_FIELD = ObfuscationReflectionHelper.findField(ItemEntity.class, "pickupDelay");
+    private static final Field PICKUP_DELAY_FIELD = ObfuscationReflectionHelper.findField(ItemEntity.class, "field_145804_b");
 
     public MagnetItem(Properties properties)
     {
