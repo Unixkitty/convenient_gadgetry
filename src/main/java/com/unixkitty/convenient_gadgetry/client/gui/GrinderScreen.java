@@ -4,13 +4,13 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
 import com.unixkitty.convenient_gadgetry.container.GrinderContainer;
-import com.unixkitty.convenient_gadgetry.init.ModBlocks;
 import com.unixkitty.gemspork.lib.HelperUtil;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+
+import javax.annotation.Nonnull;
 
 public class GrinderScreen extends ContainerScreen<GrinderContainer>
 {
@@ -30,7 +30,16 @@ public class GrinderScreen extends ContainerScreen<GrinderContainer>
     }
 
     @Override
-    public void render(MatrixStack matrixStack, final int mouseX, final int mouseY, final float partialTicks)
+    protected void init()
+    {
+        super.init();
+
+        //font is only set during init()
+        this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;
+    }
+
+    @Override
+    public void render(@Nonnull MatrixStack matrixStack, final int mouseX, final int mouseY, final float partialTicks)
     {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -38,10 +47,10 @@ public class GrinderScreen extends ContainerScreen<GrinderContainer>
     }
 
     @Override
-    protected void renderBg(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY)
+    protected void renderBg(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY)
     {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        getMinecraft().getTextureManager().bind(BACKGROUND_TEXTURE);
+        this.getMinecraft().getTextureManager().bind(BACKGROUND_TEXTURE);
 
         this.blit(matrixStack, (width - imageWidth) / 2, (height - imageHeight) / 2, 0, 0, imageWidth, imageHeight);
 
@@ -52,19 +61,15 @@ public class GrinderScreen extends ContainerScreen<GrinderContainer>
         }
     }
 
+/*    //This is temp
     @Override
-    protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY)
+    protected void renderLabels(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY)
     {
-//        super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
+        super.renderLabels(matrixStack, mouseX, mouseY);
 
-        String title = I18n.get(ModBlocks.GRINDER.get().getDescriptionId());
-        this.font.draw(matrixStack, title, (float) (this.imageWidth / 2 - this.font.width(title) / 2), 6.0F, 0x404040);
-
-        /*String cranks = String.format("Cranks: %d / %d", this.container.getCranksDone(), this.container.getCranksNeeded());
-        this.font.drawString(cranks, this.xSize - (this.xSize - 6.0F), 18.0f, 0x404040);*/
-
-        this.font.draw(matrixStack, I18n.get("container.inventory"), 8.0F, (float) (this.imageHeight - 96 + 2), 0x404040);
-    }
+        final String cranks = String.format("Cranks: %d / %d", this.getMenu().getCranksDone(), this.getMenu().getCranksNeeded());
+        this.font.draw(matrixStack, cranks, this.imageWidth - (this.imageWidth - 6.0F), 18.0f, ModGuiHandler.GUI_HELPER_TEXT_COLOR);
+    }*/
 
     private int getCranksScaled()
     {

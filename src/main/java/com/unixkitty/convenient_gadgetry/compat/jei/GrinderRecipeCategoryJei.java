@@ -20,8 +20,11 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -47,30 +50,35 @@ public class GrinderRecipeCategoryJei implements IRecipeCategory<GrinderRecipe>
         this.localizedName = I18n.get("jei." + ConvenientGadgetry.MODID + ".category.grinding");
     }
 
+    @Nonnull
     @Override
     public ResourceLocation getUid()
     {
         return IGrinderRecipe.TYPE_ID;
     }
 
+    @Nonnull
     @Override
     public Class<? extends GrinderRecipe> getRecipeClass()
     {
         return GrinderRecipe.class;
     }
 
+    @Nonnull
     @Override
     public String getTitle()
     {
         return this.localizedName;
     }
 
+    @Nonnull
     @Override
     public IDrawable getBackground()
     {
         return this.background;
     }
 
+    @Nonnull
     @Override
     public IDrawable getIcon()
     {
@@ -85,7 +93,7 @@ public class GrinderRecipeCategoryJei implements IRecipeCategory<GrinderRecipe>
     }
 
     @Override
-    public void setRecipe(IRecipeLayout recipeLayout, GrinderRecipe recipe, IIngredients ingredients)
+    public void setRecipe(IRecipeLayout recipeLayout, GrinderRecipe recipe, @Nonnull IIngredients ingredients)
     {
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
 
@@ -102,25 +110,13 @@ public class GrinderRecipeCategoryJei implements IRecipeCategory<GrinderRecipe>
         for (int i = 0; i < outputs.size(); i++)
         {
             itemStacks.set(i + 1, outputs.get(i).getKey());
-
-            //TODO chance displayed is wrong if more than one output with a chance
-            /*float chance = outputs.get(i).getValue();
-
-            if (chance < 1)
-            {
-                itemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) ->
-                {
-                    if (!input)
-                    {
-                        tooltip.add(new StringTextComponent(I18n.format("jei.convenient_gadgetry.chance", asPercent(chance))));
-                    }
-                });
-            }*/
         }
+
+        addChanceTooltip(itemStacks, outputs, 1);
     }
 
     @Override
-    public void draw(GrinderRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY)
+    public void draw(GrinderRecipe recipe, @Nonnull MatrixStack matrixStack, double mouseX, double mouseY)
     {
         this.arrow.draw(matrixStack, 30, 19);
 
@@ -135,33 +131,42 @@ public class GrinderRecipeCategoryJei implements IRecipeCategory<GrinderRecipe>
 
         for (int i = 0; i < outputs.size(); i++)
         {
-            float chance = outputs.get(i).getValue();
+            final float chance = outputs.get(i).getValue();
 
             if (chance < 1)
             {
-                drawText(matrixStack, font, asPercent(chance), 61 + 18 * i, 40);
+                drawText(matrixStack, font, asPercent(chance) + "%", 61 + 18 * i, 40);
             }
         }
     }
 
-    //TODO test how this looks after 1.16.1 update
     private void drawText(MatrixStack matrixStack, FontRenderer fontRenderer, String text, int x, int y)
     {
         matrixStack.pushPose();
-        matrixStack.scale(1f, 1f, 1f);
-//        boolean wasUnicode = fontRenderer.getBidiFlag();
 
-//        fontRenderer.setBidiFlag(false);
+        fontRenderer.draw(matrixStack, text, x, y, ModGuiHandler.GUI_HELPER_TEXT_COLOR);
 
-        fontRenderer.draw(matrixStack, text, x, y, 5592405);
-
-//        fontRenderer.setBidiFlag(wasUnicode);
         matrixStack.popPose();
     }
 
-    private String asPercent(float chance)
+    public static void addChanceTooltip(IGuiItemStackGroup itemStacks, List<Pair<ItemStack, Float>> outputs, int startIndex)
     {
-        int asPercent = (int) (100 * chance);
-        return asPercent < 1 ? "<1%" : asPercent + "%";
+        itemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) ->
+        {
+            if (!input && slotIndex >= startIndex)
+            {
+                final float chance = outputs.get(slotIndex - startIndex).getValue();
+
+                if (chance != 1)
+                {
+                    tooltip.add(1, new TranslationTextComponent("jei.convenient_gadgetry.chance", asPercent(chance)).withStyle(TextFormatting.GOLD));
+                }
+            }
+        });
+    }
+
+    private static String asPercent(float chance)
+    {
+        return chance < 0.01 ? "<1" : String.valueOf((int) (100 * chance));
     }
 }

@@ -57,5 +57,5 @@
   "key.convenient_gadgetry.toggle_magnet": "Toggle magnet",
 
   "jei.convenient_gadgetry.category.grinding": "Grinding",
-  "jei.convenient_gadgetry.chance": "Output chance: %1$s"
+  "jei.convenient_gadgetry.chance": "Chance: %1$s%%"
 }

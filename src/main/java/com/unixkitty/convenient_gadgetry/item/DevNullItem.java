@@ -1,5 +1,6 @@
 package com.unixkitty.convenient_gadgetry.item;
 
+import com.unixkitty.convenient_gadgetry.ConvenientGadgetry;
 import com.unixkitty.convenient_gadgetry.container.DevNullContainer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
@@ -9,7 +10,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.ItemStackHandler;
@@ -50,7 +51,7 @@ public class DevNullItem extends Item
                 ghostInventory.deserializeNBT(itemStack.getOrCreateTagElement(FILTERS_TAG));
 
                 player.openMenu(new SimpleNamedContainerProvider((id, playerInventory, playerEntity) ->
-                        new DevNullContainer(id, playerInventory, ghostInventory), new StringTextComponent("")
+                        new DevNullContainer(id, playerInventory, ghostInventory), new TranslationTextComponent("text." + ConvenientGadgetry.MODID + ".dev_null_gui")
                 ));
             }
         }
